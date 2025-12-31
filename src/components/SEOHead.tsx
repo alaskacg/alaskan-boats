@@ -9,29 +9,29 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({
-  title = "Alcan Listings - Interior Alaska's Premier Private Listings Marketplace",
-  description = "Interior Alaska's premier private listings marketplace for vehicles, boats, real estate, land, mining equipment, and guide services. Post your listing for just $10—no commissions, no middleman.",
-  canonical = "https://alcanlistings.com",
+  title = "Alaskan Boats - Alaska's Premier Boat Marketplace",
+  description = "Buy and sell boats across Alaska. Fishing boats, cabin cruisers, skiffs, jet boats, kayaks and more. List your boat for just $20—no commissions, no middleman.",
+  canonical = "https://alaskanboats.com",
   type = "website",
   image,
 }: SEOHeadProps) => {
-  const fullTitle = title.includes('Alcan Listings') ? title : `${title} | Alcan Listings`;
+  const fullTitle = title.includes('Alaskan Boats') ? title : `${title} | Alaskan Boats`;
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Alcan Listings",
-    "url": "https://alcanlistings.com",
+    "name": "Alaskan Boats",
+    "url": "https://alaskanboats.com",
     "description": description,
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://alcanlistings.com/browse?search={search_term_string}",
+      "target": "https://alaskanboats.com/browse?search={search_term_string}",
       "query-input": "required name=search_term_string"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Alaska Listings LLC",
-      "url": "https://aklistings.com",
+      "name": "Alaskan Boats",
+      "url": "https://alaskanboats.com",
       "areaServed": {
         "@type": "State",
         "name": "Alaska"

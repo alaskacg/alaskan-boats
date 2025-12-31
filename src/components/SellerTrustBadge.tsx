@@ -23,7 +23,7 @@ const SellerTrustBadge = ({ userId, sellerName, variant = "compact" }: SellerTru
         .select('*', { count: 'exact', head: true })
         .eq('user_id', userId)
         .eq('status', 'active')
-        .eq('payment_status', 'paid');
+        .eq('payment_status', 'completed');
 
       if (error) throw error;
       return count || 0;

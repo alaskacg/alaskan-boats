@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, User, LogOut, ChevronDown } from "lucide-react";
-import MountainLogo from "@/components/MountainLogo";
+import { Menu, X, User, LogOut, ChevronDown, Anchor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useAuth } from "@/contexts/AuthContext";
@@ -21,24 +20,22 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-const regions = [
-  { name: "Fairbanks/North Star", href: "/regions", description: "Fairbanks and surrounding areas" },
-  { name: "Delta Junction Area", href: "/regions", description: "Delta Junction and Big Delta" },
-  { name: "Tok/Highway Corridor", href: "/regions", description: "Tok, Northway, and border area" },
-  { name: "Denali Borough", href: "/regions", description: "Healy, Anderson, and Nenana" },
-  { name: "Valdez-Cordova Border", href: "/regions", description: "Richardson Highway access" },
-  { name: "Yukon-Tanana Region", href: "/regions", description: "Remote interior communities" },
+const boatCategories = [
+  { name: "Fishing Boats", href: "/browse?category=fishing", description: "Commercial & sport fishing vessels" },
+  { name: "Cabin Cruisers", href: "/browse?category=cabin-cruisers", description: "Overnight capable vessels" },
+  { name: "Skiffs & Jon Boats", href: "/browse?category=skiffs", description: "Small aluminum & fiberglass boats" },
+  { name: "Jet Boats", href: "/browse?category=jet-boats", description: "River runners & shallow drafts" },
+  { name: "Sailboats", href: "/browse?category=sailboats", description: "Sailing vessels of all sizes" },
+  { name: "Kayaks & Canoes", href: "/browse?category=kayaks", description: "Paddle craft & inflatables" },
+  { name: "Pontoons", href: "/browse?category=pontoons", description: "Party & leisure boats" },
+  { name: "PWC / Jet Skis", href: "/browse?category=pwc", description: "Personal watercraft" },
 ];
 
-const categories = [
-  { name: "Vehicles", href: "https://kenaiautosales.com", description: "Cars, trucks, ATVs, snowmobiles" },
-  { name: "Boats & Watercraft", href: "https://alaskanboats.com", description: "Fishing boats, kayaks, jet skis" },
-  { name: "Homes for Sale", href: "https://kenaihomesales.com", description: "Residential properties" },
-  { name: "Land for Sale", href: "https://kenailandsales.com", description: "Lots, acreage, wilderness" },
-  { name: "Rentals", href: "https://kenaipeninsularentals.com", description: "Apartments, houses, cabins" },
-  { name: "Mining Equipment", href: "https://alaskaminingequipment.com", description: "Gold mining, dredges, sluices" },
-  { name: "Guide Services", href: "https://alaskaguidelistings.com", description: "Fishing, hunting, tours" },
-  { name: "General Listings", href: "https://alaskadigs.com", description: "Everything else" },
+const regions = [
+  { name: "Southcentral Alaska", href: "/browse?region=southcentral", description: "Anchorage, Kenai, Homer" },
+  { name: "Southeast Alaska", href: "/browse?region=southeast", description: "Juneau, Ketchikan, Sitka" },
+  { name: "Interior Alaska", href: "/browse?region=interior", description: "Fairbanks, river boats" },
+  { name: "Southwest Alaska", href: "/browse?region=southwest", description: "Bristol Bay, Kodiak" },
 ];
 
 const Header = () => {
@@ -52,14 +49,39 @@ const Header = () => {
           <div className="flex items-center justify-between h-14 md:h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
-              <MountainLogo />
-              <span className="font-display text-base font-bold text-foreground">Alcan Listings</span>
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                <Anchor className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <span className="font-display text-base font-bold text-foreground">Alaskan Boats</span>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-4">
               <NavigationMenu>
                 <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm bg-transparent">Boat Types</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2">
+                        {boatCategories.map((category) => (
+                          <li key={category.name}>
+                            <NavigationMenuLink asChild>
+                              <Link
+                                to={category.href}
+                                className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              >
+                                <div className="text-sm font-medium leading-none">{category.name}</div>
+                                <p className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-1">
+                                  {category.description}
+                                </p>
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
                   <NavigationMenuItem>
                     <NavigationMenuTrigger className="text-sm bg-transparent">Regions</NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -79,47 +101,6 @@ const Header = () => {
                             </NavigationMenuLink>
                           </li>
                         ))}
-                        <li className="col-span-2">
-                          <Link
-                            to="/regions"
-                            className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground text-center text-sm text-primary"
-                          >
-                            View All Regions →
-                          </Link>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-sm bg-transparent">Categories</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-2 p-4 md:w-[600px] md:grid-cols-2 lg:grid-cols-3">
-                        {categories.map((category) => (
-                          <li key={category.name}>
-                            <NavigationMenuLink asChild>
-                              <a
-                                href={category.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                              >
-                                <div className="text-sm font-medium leading-none">{category.name}</div>
-                                <p className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-1">
-                                  {category.description}
-                                </p>
-                              </a>
-                            </NavigationMenuLink>
-                          </li>
-                        ))}
-                        <li className="col-span-full">
-                          <Link
-                            to="/categories"
-                            className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground text-center text-sm text-primary"
-                          >
-                            View All Categories →
-                          </Link>
-                        </li>
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -144,7 +125,7 @@ const Header = () => {
                       <Link to="/my-listings" className="cursor-pointer text-sm">My Listings</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/post-listing" className="cursor-pointer text-sm">Post a Listing</Link>
+                      <Link to="/post-listing" className="cursor-pointer text-sm">Sell Your Boat</Link>
                     </DropdownMenuItem>
                     {isAdmin && (
                       <>
@@ -168,7 +149,7 @@ const Header = () => {
                   </Link>
                   <Link to="/post-listing">
                     <Button variant="aurora" size="sm">
-                      Post a Listing
+                      Sell Your Boat
                     </Button>
                   </Link>
                 </div>
@@ -193,6 +174,26 @@ const Header = () => {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-card border-t border-border animate-slide-up max-h-[80vh] overflow-y-auto">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-2">
+            {/* Boat Types Accordion */}
+            <details className="group">
+              <summary className="flex items-center justify-between py-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer">
+                Boat Types
+                <ChevronDown className="w-4 h-4 group-open:rotate-180 transition-transform" />
+              </summary>
+              <div className="pl-4 py-2 space-y-2">
+                {boatCategories.map((category) => (
+                  <Link
+                    key={category.name}
+                    to={category.href}
+                    className="block text-sm text-muted-foreground hover:text-primary py-1"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {category.name}
+                  </Link>
+                ))}
+              </div>
+            </details>
+
             {/* Regions Accordion */}
             <details className="group">
               <summary className="flex items-center justify-between py-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer">
@@ -210,41 +211,6 @@ const Header = () => {
                     {region.name}
                   </Link>
                 ))}
-                <Link
-                  to="/regions"
-                  className="block text-sm text-primary py-1"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  View All →
-                </Link>
-              </div>
-            </details>
-
-            {/* Categories Accordion */}
-            <details className="group">
-              <summary className="flex items-center justify-between py-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer">
-                Categories
-                <ChevronDown className="w-4 h-4 group-open:rotate-180 transition-transform" />
-              </summary>
-              <div className="pl-4 py-2 space-y-2">
-                {categories.map((category) => (
-                  <a
-                    key={category.name}
-                    href={category.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-sm text-muted-foreground hover:text-primary py-1"
-                  >
-                    {category.name}
-                  </a>
-                ))}
-                <Link
-                  to="/categories"
-                  className="block text-sm text-primary py-1"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  View All →
-                </Link>
               </div>
             </details>
 
@@ -253,7 +219,7 @@ const Header = () => {
               className="text-sm text-muted-foreground hover:text-foreground py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Browse All
+              Browse All Boats
             </Link>
             
             {user ? (
@@ -274,7 +240,7 @@ const Header = () => {
                 </Link>
                 <Link to="/post-listing" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="aurora" size="sm" className="w-full mt-2">
-                    Post a Listing
+                    Sell Your Boat
                   </Button>
                 </Link>
                 <Button 
@@ -297,7 +263,7 @@ const Header = () => {
                 </Link>
                 <Link to="/post-listing" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="aurora" size="sm" className="w-full">
-                    Post a Listing
+                    Sell Your Boat
                   </Button>
                 </Link>
               </>

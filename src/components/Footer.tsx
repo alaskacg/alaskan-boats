@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MapPin, Mail, FileText, Shield, Scale, ExternalLink } from "lucide-react";
+import { Anchor, Mail, FileText, Shield, Scale } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -10,85 +10,75 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <MapPin className="w-4 h-4 text-primary-foreground" />
+                <Anchor className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-display text-base font-bold text-foreground">Alcan Listings</span>
+              <span className="font-display text-base font-bold text-foreground">Alaskan Boats</span>
             </Link>
             <p className="text-muted-foreground text-xs leading-relaxed mb-4">
-              Interior Alaska's premier private listings marketplace connecting buyers and sellers across the Alcan corridor.
+              Alaska's premier boat marketplace connecting buyers and sellers across the Last Frontier.
             </p>
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs text-muted-foreground">Listings just</span>
-              <span className="text-sm font-semibold text-accent">$10</span>
+              <span className="text-xs text-muted-foreground">Listings start at</span>
+              <span className="text-sm font-semibold text-accent">$20</span>
               <span className="text-xs text-muted-foreground">for 60 days</span>
             </div>
-            {/* Parent Site Link */}
-            <a 
-              href="https://aklistings.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors"
-            >
-              <ExternalLink className="w-3 h-3" />
-              Alaska Listings (Statewide)
-            </a>
           </div>
 
-          {/* Interior Regions */}
+          {/* Boat Types */}
           <div>
-            <h4 className="font-display text-sm font-semibold text-foreground mb-3">Interior Regions</h4>
+            <h4 className="font-display text-sm font-semibold text-foreground mb-3">Boat Types</h4>
             <ul className="space-y-1.5">
               <li>
-                <Link to="/regions" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Fairbanks/North Star Borough
+                <Link to="/browse?category=fishing" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Fishing Boats
                 </Link>
               </li>
               <li>
-                <Link to="/regions" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Delta Junction Area
+                <Link to="/browse?category=cabin-cruisers" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Cabin Cruisers
                 </Link>
               </li>
               <li>
-                <Link to="/regions" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Tok/Alaska Highway Corridor
+                <Link to="/browse?category=skiffs" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Skiffs & Jon Boats
                 </Link>
               </li>
               <li>
-                <Link to="/regions" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Denali Borough
+                <Link to="/browse?category=jet-boats" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Jet Boats
                 </Link>
               </li>
               <li>
-                <Link to="/regions" className="text-primary hover:text-primary/80 transition-colors text-xs font-medium">
-                  View All Regions →
+                <Link to="/browse" className="text-primary hover:text-primary/80 transition-colors text-xs font-medium">
+                  View All Boats →
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Regions */}
           <div>
-            <h4 className="font-display text-sm font-semibold text-foreground mb-3">Categories</h4>
+            <h4 className="font-display text-sm font-semibold text-foreground mb-3">Regions</h4>
             <ul className="space-y-1.5">
               <li>
-                <a href="https://kenaiautosales.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Vehicles
-                </a>
+                <Link to="/browse?region=southcentral" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Southcentral Alaska
+                </Link>
               </li>
               <li>
-                <a href="https://alaskanboats.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Boats & Watercraft
-                </a>
+                <Link to="/browse?region=southeast" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Southeast Alaska
+                </Link>
               </li>
               <li>
-                <a href="https://kenaihomesales.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Real Estate
-                </a>
+                <Link to="/browse?region=interior" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Interior Alaska
+                </Link>
               </li>
               <li>
-                <a href="https://alaskaminingequipment.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                  Mining Equipment
-                </a>
+                <Link to="/browse?region=southwest" className="text-muted-foreground hover:text-primary transition-colors text-xs">
+                  Southwest Alaska
+                </Link>
               </li>
             </ul>
           </div>
@@ -116,7 +106,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="mailto:support@alcanlistings.com" className="text-muted-foreground hover:text-primary transition-colors text-xs flex items-center gap-2">
+                <a href="mailto:support@alaskanboats.com" className="text-muted-foreground hover:text-primary transition-colors text-xs flex items-center gap-2">
                   <Mail className="w-3 h-3" />
                   Contact Us
                 </a>
@@ -129,10 +119,10 @@ const Footer = () => {
         <div className="mt-10 pt-6 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
             <p className="text-muted-foreground text-xs text-center md:text-left">
-              © {new Date().getFullYear()} Alcan Listings LLC. All rights reserved.
+              © {new Date().getFullYear()} Alaskan Boats. All rights reserved.
             </p>
             <p className="text-muted-foreground text-xs text-center md:text-right max-w-md">
-              Alcan Listings LLC is a listing service only. We do not participate in, endorse, or guarantee any transactions between users.
+              Alaskan Boats is a listing service only. We do not participate in, endorse, or guarantee any transactions between users.
             </p>
           </div>
         </div>
