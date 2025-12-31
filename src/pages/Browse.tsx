@@ -29,9 +29,9 @@ interface Listing {
   title: string;
   description: string;
   price: number;
-  category: string;
+  category_id: string | null;
   region: string;
-  images: string[];
+  images: string[] | null;
   created_at: string;
   user_id: string;
   contact_name: string;
@@ -56,13 +56,13 @@ const Browse = () => {
     try {
       let query = supabase
         .from('listings')
-        .select('id, title, description, price, category, region, images, created_at, user_id, contact_name')
+        .select('id, title, description, price, category_id, region, images, created_at, user_id, contact_name')
         .eq('status', 'active')
-        .eq('payment_status', 'paid');
+        .eq('payment_status', 'completed');
 
       // Apply filters
       if (category !== 'all') {
-        query = query.eq('category', category);
+        query = query.eq('category_id', category);
       }
       if (region !== 'all') {
         query = query.eq('region', region);

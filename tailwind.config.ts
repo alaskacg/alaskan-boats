@@ -63,25 +63,16 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        mountain: {
-          slate: "hsl(var(--mountain-slate))",
-          steel: "hsl(var(--mountain-steel))",
-          granite: "hsl(var(--mountain-granite))",
-          gold: "hsl(var(--mountain-gold))",
-          mist: "hsl(var(--mountain-mist))",
+        ocean: {
+          deep: "hsl(var(--ocean-deep))",
+          teal: "hsl(var(--ocean-teal))",
+          steel: "hsl(var(--ocean-steel))",
+          gold: "hsl(var(--ocean-gold))",
+          mist: "hsl(var(--ocean-mist))",
         },
         charcoal: "hsl(var(--charcoal))",
         "snow-peak": "hsl(var(--snow-peak))",
         forest: "hsl(var(--forest))",
-        // Anchorage-specific colors
-        anc: {
-          navy: "hsl(var(--anc-navy))",
-          forest: "hsl(var(--anc-forest))",
-          gold: "hsl(var(--anc-gold))",
-          charcoal: "hsl(var(--anc-charcoal))",
-          crimson: "hsl(var(--anc-crimson))",
-          offwhite: "hsl(var(--anc-offwhite))",
-        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

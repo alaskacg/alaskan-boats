@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MapPin, Clock, ChevronDown, Loader2, Shield } from "lucide-react";
+import { MapPin, Clock, ChevronDown, Loader2, Anchor } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
@@ -18,9 +18,9 @@ const RecentListings = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('listings')
-        .select('id, title, description, price, category, region, images, created_at, user_id, contact_name')
+        .select('id, title, description, price, category_id, region, images, created_at, user_id, contact_name')
         .eq('status', 'active')
-        .eq('payment_status', 'paid')
+        .eq('payment_status', 'completed')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -39,7 +39,6 @@ const RecentListings = () => {
 
   const handleLoadMore = () => {
     setIsLoadingMore(true);
-    // Simulate loading delay for smooth UX
     setTimeout(() => {
       setDisplayCount(prev => prev + ITEMS_PER_PAGE);
       setIsLoadingMore(false);
@@ -54,24 +53,24 @@ const RecentListings = () => {
     <section className="py-16 md:py-24 bg-background relative overflow-hidden">
       {/* Background accents */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-aurora-teal/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-aurora-deep/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-ocean-teal/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-ocean-deep/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-4">
-            <Clock className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Recent Listings</span>
+            <Anchor className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">Recent Boats</span>
           </div>
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3">
-            Latest From Across Alaska
+            Latest Boats For Sale
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {totalListings > 0 
               ? `Showing ${displayedListings.length} of ${totalListings} active listings`
-              : "Fresh listings from our statewide network"
+              : "Browse the newest boats listed across Alaska"
             }
           </p>
         </div>
@@ -114,17 +113,13 @@ const RecentListings = () => {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-aurora-deep/10">
-                        <span className="text-muted-foreground text-sm">No Image</span>
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-ocean-deep/10">
+                        <Anchor className="w-12 h-12 text-muted-foreground/30" />
                       </div>
                     )}
                     {/* Price Badge */}
                     <div className="absolute bottom-2 right-2 px-3 py-1.5 bg-background/95 backdrop-blur-sm rounded-md font-display font-bold text-foreground shadow-lg">
                       {formatPrice(listing.price)}
-                    </div>
-                    {/* Category Badge */}
-                    <div className="absolute top-2 left-2 px-2 py-1 bg-secondary/90 backdrop-blur-sm rounded text-xs font-medium text-secondary-foreground capitalize">
-                      {listing.category.replace(/-/g, ' ')}
                     </div>
                   </div>
 
@@ -176,13 +171,13 @@ const RecentListings = () => {
                     </>
                   ) : (
                     <>
-                      Show More Listings
+                      Show More Boats
                       <ChevronDown className="w-4 h-4 ml-2 group-hover:translate-y-0.5 transition-transform" />
                     </>
                   )}
                 </Button>
                 <p className="text-muted-foreground text-sm mt-3">
-                  {listings.length - displayCount} more listings available
+                  {listings.length - displayCount} more boats available
                 </p>
               </div>
             )}
@@ -190,14 +185,14 @@ const RecentListings = () => {
         ) : (
           /* Empty State */
           <div className="text-center py-16 bg-card rounded-xl border border-border/30">
-            <Clock className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-            <h3 className="font-display text-xl font-semibold text-foreground mb-2">No Listings Yet</h3>
+            <Anchor className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+            <h3 className="font-display text-xl font-semibold text-foreground mb-2">No Boats Listed Yet</h3>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              Be the first to post a listing on Alaska's premier private marketplace
+              Be the first to list your boat on Alaska's premier boat marketplace
             </p>
             <Link to="/post-listing">
               <Button variant="aurora" size="lg">
-                Post Your Listing — $10
+                Sell Your Boat — $20
               </Button>
             </Link>
           </div>

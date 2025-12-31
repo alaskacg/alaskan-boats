@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MapPin, Grid3X3, Search, Star } from "lucide-react";
+import { ArrowRight, Anchor, Ship, Waves, Star } from "lucide-react";
 import { motion } from "framer-motion";
-import heroImage from "@/assets/hero-mountain.jpg";
+import heroImage from "@/assets/network/boats-listings.jpg";
 
 const HeroSection = () => {
   return (
@@ -11,7 +11,7 @@ const HeroSection = () => {
       <div className="absolute inset-0">
         <img 
           src={heroImage} 
-          alt="Interior Alaska Mountain Highway" 
+          alt="Alaska boats and watercraft" 
           className="w-full h-full object-cover"
         />
         {/* Gradient overlays */}
@@ -19,10 +19,10 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
       </div>
 
-      {/* Static mountain glow effect */}
+      {/* Animated wave effect */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-mountain-slate/20 rounded-full blur-3xl opacity-60" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-mountain-granite/15 rounded-full blur-3xl opacity-50" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-ocean-deep/20 rounded-full blur-3xl opacity-60" />
+        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-ocean-teal/15 rounded-full blur-3xl opacity-50" />
       </div>
 
       {/* Content */}
@@ -35,10 +35,10 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            Alcan Listings
+            Alaskan Boats
           </motion.h1>
 
-          {/* Animated Tagline - Below title */}
+          {/* Tagline */}
           <motion.div 
             className="mb-8 overflow-hidden"
             initial={{ opacity: 0 }}
@@ -46,7 +46,7 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <motion.p 
-              className="font-sans text-sm sm:text-base md:text-lg tracking-[0.2em] uppercase font-medium text-mountain-mist"
+              className="font-sans text-sm sm:text-base md:text-lg tracking-[0.2em] uppercase font-medium text-muted-foreground"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ 
@@ -55,14 +55,7 @@ const HeroSection = () => {
                 ease: [0.22, 1, 0.36, 1]
               }}
             >
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 0.8 }}
-                className="inline-block"
-              >
-                Interior Alaska's Premier Private Listings Marketplace
-              </motion.span>
+              Alaska's Premier Boat Marketplace
             </motion.p>
           </motion.div>
 
@@ -73,28 +66,28 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            <Link to="/regions" className="group">
+            <Link to="/browse?category=fishing" className="group">
               <div className="bg-glass rounded-lg p-4 md:p-5 transition-all duration-300 hover:scale-105 hover:bg-primary/10 border border-border/50 hover:border-primary/50">
-                <MapPin className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-primary group-hover:animate-float" />
-                <span className="font-display text-xs md:text-sm text-foreground block">Explore by Region</span>
+                <Ship className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-primary group-hover:animate-float" />
+                <span className="font-display text-xs md:text-sm text-foreground block">Fishing Boats</span>
               </div>
             </Link>
-            <Link to="/categories" className="group">
+            <Link to="/browse?category=cabin-cruisers" className="group">
               <div className="bg-glass rounded-lg p-4 md:p-5 transition-all duration-300 hover:scale-105 hover:bg-primary/10 border border-border/50 hover:border-primary/50">
-                <Grid3X3 className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-mountain-gold group-hover:animate-float" />
-                <span className="font-display text-xs md:text-sm text-foreground block">Explore by Category</span>
+                <Anchor className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-ocean-teal group-hover:animate-float" />
+                <span className="font-display text-xs md:text-sm text-foreground block">Cabin Cruisers</span>
               </div>
             </Link>
             <Link to="/browse" className="group">
               <div className="bg-glass rounded-lg p-4 md:p-5 transition-all duration-300 hover:scale-105 hover:bg-primary/10 border border-border/50 hover:border-primary/50">
-                <Search className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-mountain-steel group-hover:animate-float" />
-                <span className="font-display text-xs md:text-sm text-foreground block">Browse All Listings</span>
+                <Waves className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-ocean-steel group-hover:animate-float" />
+                <span className="font-display text-xs md:text-sm text-foreground block">All Watercraft</span>
               </div>
             </Link>
             <Link to="/browse?featured=true" className="group">
               <div className="bg-glass rounded-lg p-4 md:p-5 transition-all duration-300 hover:scale-105 hover:bg-accent/10 border border-border/50 hover:border-accent/50">
                 <Star className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-accent fill-accent/30 group-hover:animate-float" />
-                <span className="font-display text-xs md:text-sm text-foreground block">Featured Listings</span>
+                <span className="font-display text-xs md:text-sm text-foreground block">Featured Boats</span>
               </div>
             </Link>
           </motion.div>
@@ -108,13 +101,13 @@ const HeroSection = () => {
           >
             <Link to="/browse">
               <Button variant="aurora" size="lg" className="group text-white font-semibold shadow-lg">
-                Browse Listings
+                Browse Boats
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link to="/post-listing">
               <Button variant="glass" size="lg">
-                Post Your Listing — $10
+                Sell Your Boat — $20
               </Button>
             </Link>
           </motion.div>
@@ -127,12 +120,12 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 1.1 }}
           >
             <div>
-              <div className="font-display text-xl md:text-2xl font-bold text-foreground">6</div>
-              <div className="text-muted-foreground text-xs">Interior Regions</div>
+              <div className="font-display text-xl md:text-2xl font-bold text-foreground">8+</div>
+              <div className="text-muted-foreground text-xs">Boat Types</div>
             </div>
             <div>
-              <div className="font-display text-xl md:text-2xl font-bold text-foreground">8</div>
-              <div className="text-muted-foreground text-xs">Categories</div>
+              <div className="font-display text-xl md:text-2xl font-bold text-foreground">4</div>
+              <div className="text-muted-foreground text-xs">Alaska Regions</div>
             </div>
             <div>
               <div className="font-display text-xl md:text-2xl font-bold text-foreground">60</div>
