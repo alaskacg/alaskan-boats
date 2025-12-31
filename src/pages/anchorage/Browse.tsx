@@ -29,9 +29,9 @@ interface Listing {
   title: string;
   description: string;
   price: number;
-  category: string;
+  category_id: string | null;
   region: string;
-  images: string[];
+  images: string[] | null;
   created_at: string;
   user_id: string;
   contact_name: string;
@@ -88,13 +88,13 @@ const AnchorageBrowse = () => {
     try {
       let query = supabase
         .from('listings')
-        .select('id, title, description, price, category, region, images, created_at, user_id, contact_name')
+        .select('id, title, description, price, category_id, region, images, created_at, user_id, contact_name')
         .eq('status', 'active')
-        .eq('payment_status', 'paid')
+        .eq('payment_status', 'completed')
         .eq('region', 'anchorage');
 
       if (category !== 'all') {
-        query = query.eq('category', category);
+        query = query.eq('category_id', category);
       }
       if (minPrice) {
         query = query.gte('price', parseFloat(minPrice));
@@ -428,7 +428,7 @@ const AnchorageBrowse = () => {
                       <p className="text-muted-foreground text-xs line-clamp-2 mb-3">{listing.description}</p>
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] px-2 py-0.5 rounded bg-secondary text-muted-foreground capitalize">
-                          {listing.category}
+                          {listing.category_id || 'General'}
                         </span>
                         <span className="text-[10px] text-muted-foreground">
                           {listing.contact_name}

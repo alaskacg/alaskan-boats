@@ -32,10 +32,10 @@ interface Listing {
   id: string;
   title: string;
   price: number;
-  category: string;
+  category_id: string | null;
   region: string;
   status: string;
-  payment_status: string;
+  payment_status: string | null;
   images: string[] | null;
   created_at: string;
   expires_at: string | null;
@@ -72,7 +72,7 @@ const MyListings = () => {
     try {
       const { data, error } = await supabase
         .from('listings')
-        .select('id, title, price, category, region, status, payment_status, images, created_at, expires_at')
+        .select('id, title, price, category_id, region, status, payment_status, images, created_at, expires_at')
         .eq('user_id', user?.id)
         .order('created_at', { ascending: false });
 
@@ -222,7 +222,7 @@ const MyListings = () => {
                           Expires {format(new Date(listing.expires_at), 'MMM d, yyyy')}
                         </span>
                       )}
-                      {listing.payment_status !== 'paid' && (
+                      {listing.payment_status !== 'completed' && (
                         <Badge variant="destructive" className="text-xs">
                           Payment Required
                         </Badge>
@@ -232,7 +232,7 @@ const MyListings = () => {
 
                   {/* Actions */}
                   <div className="flex sm:flex-col gap-2 flex-shrink-0">
-                    {listing.status === 'active' && listing.payment_status === 'paid' && (
+                    {listing.status === 'active' && listing.payment_status === 'completed' && (
                       <Link to={`/listing/${listing.id}`}>
                         <Button variant="outline" size="sm" className="w-full">
                           <Eye className="w-4 h-4 mr-1" />

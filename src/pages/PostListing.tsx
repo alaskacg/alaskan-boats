@@ -214,9 +214,9 @@ const PostListing = () => {
       // Create listing first
       const { data: listing, error: listingError } = await supabase
         .from('listings')
-        .insert({
+        .insert([{
           user_id: user.id,
-          category,
+          category_id: category || null,
           region,
           title: title.trim(),
           price: parseFloat(price),
@@ -224,10 +224,10 @@ const PostListing = () => {
           contact_name: contactName.trim(),
           contact_email: contactEmail.trim(),
           contact_phone: contactPhone.trim() || null,
-          status: 'pending',
-          payment_status: 'unpaid',
+          status: 'pending' as const,
+          payment_status: 'pending' as const,
           expires_at: expiresAt.toISOString(),
-        })
+        }])
         .select()
         .single();
 

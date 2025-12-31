@@ -26,7 +26,7 @@ interface Listing {
   title: string;
   description: string;
   price: number;
-  category: string;
+  category_id: string | null;
   region: string;
   images: string[] | null;
   created_at: string;
@@ -73,11 +73,11 @@ const ListingDetail = () => {
       try {
         const { data, error } = await supabase
           .from('listings')
-          .select('*')
+          .select('id, title, description, price, category_id, region, images, created_at, contact_name, contact_email, contact_phone, user_id')
           .eq('id', id)
           .eq('status', 'active')
-          .eq('payment_status', 'paid')
-          .single();
+          .eq('payment_status', 'completed')
+          .maybeSingle();
 
         if (error) throw error;
         setListing(data);
@@ -245,7 +245,7 @@ const ListingDetail = () => {
               <div className="flex flex-wrap gap-2">
                 <Badge variant="secondary" className="flex items-center gap-1">
                   <Tag className="w-3 h-3" />
-                  {categoryLabels[listing.category] || listing.category}
+                  {(listing.category_id && categoryLabels[listing.category_id]) || listing.category_id || 'General'}
                 </Badge>
                 <Badge variant="secondary" className="flex items-center gap-1">
                   <MapPin className="w-3 h-3" />

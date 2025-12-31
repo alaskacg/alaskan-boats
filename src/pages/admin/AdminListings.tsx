@@ -16,11 +16,11 @@ import {
 interface Listing {
   id: string;
   title: string;
-  category: string;
+  category_id: string | null;
   region: string;
   price: number;
-  status: string;
-  payment_status: string;
+  status: 'pending' | 'active' | 'sold' | 'expired' | 'rejected';
+  payment_status: 'pending' | 'completed' | 'failed' | 'refunded' | null;
   contact_email: string;
   created_at: string;
   expires_at: string | null;
@@ -42,7 +42,7 @@ const AdminListings = () => {
         .order('created_at', { ascending: false });
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+        query = query.eq('status', statusFilter as 'pending' | 'active' | 'sold' | 'expired' | 'rejected');
       }
 
       const { data, error } = await query;
@@ -65,11 +65,11 @@ const AdminListings = () => {
     fetchListings();
   }, [statusFilter]);
 
-  const updateListingStatus = async (id: string, status: string) => {
+  const updateListingStatus = async (id: string, newStatus: 'pending' | 'active' | 'sold' | 'expired' | 'rejected') => {
     try {
-      const updates: { status: string; expires_at?: string } = { status };
+      const updates: { status: 'pending' | 'active' | 'sold' | 'expired' | 'rejected'; expires_at?: string } = { status: newStatus };
       
-      if (status === 'active') {
+      if (newStatus === 'active') {
         const expiresAt = new Date();
         expiresAt.setDate(expiresAt.getDate() + 60);
         updates.expires_at = expiresAt.toISOString();
@@ -128,15 +128,15 @@ const AdminListings = () => {
     listing.contact_email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const getStatusBadge = (status: string, paymentStatus: string) => {
-    if (paymentStatus !== 'paid') {
+  const getStatusBadge = (status: string, paymentStatus: string | null) => {
+    if (paymentStatus !== 'completed') {
       return <span className="px-2 py-1 text-xs rounded-full bg-destructive/20 text-destructive">Unpaid</span>;
     }
     switch (status) {
       case 'active':
-        return <span className="px-2 py-1 text-xs rounded-full bg-aurora-green/20 text-aurora-green">Active</span>;
+        return <span className="px-2 py-1 text-xs rounded-full bg-forest/20 text-forest">Active</span>;
       case 'pending':
-        return <span className="px-2 py-1 text-xs rounded-full bg-aurora-gold/20 text-aurora-gold">Pending</span>;
+        return <span className="px-2 py-1 text-xs rounded-full bg-ocean-gold/20 text-ocean-gold">Pending</span>;
       case 'rejected':
         return <span className="px-2 py-1 text-xs rounded-full bg-destructive/20 text-destructive">Rejected</span>;
       case 'expired':
@@ -213,7 +213,7 @@ const AdminListings = () => {
                           <div className="text-sm text-muted-foreground">{listing.contact_email}</div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground">{listing.category}</td>
+                      <td className="px-4 py-3 text-sm text-muted-foreground">{listing.category_id || 'General'}</td>
                       <td className="px-4 py-3 text-sm text-muted-foreground">{listing.region}</td>
                       <td className="px-4 py-3 text-sm font-medium text-foreground">${listing.price}</td>
                       <td className="px-4 py-3">{getStatusBadge(listing.status, listing.payment_status)}</td>
