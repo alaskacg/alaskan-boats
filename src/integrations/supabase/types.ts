@@ -14,138 +14,185 @@ export type Database = {
   }
   public: {
     Tables: {
-      listings: {
+      categories: {
         Row: {
-          category: string
-          contact_email: string | null
-          contact_name: string | null
-          contact_phone: string | null
           created_at: string
           description: string | null
-          expires_at: string | null
-          featured: boolean | null
+          icon: string | null
           id: string
-          images: string[] | null
-          location: string | null
-          payment_status: string
-          price: number | null
-          region: string
-          source_site: string | null
-          status: string
-          syndicate_to_statewide: boolean | null
-          title: string
-          updated_at: string
-          user_id: string
+          name: string
+          slug: string
+          sort_order: number | null
         }
         Insert: {
-          category: string
-          contact_email?: string | null
-          contact_name?: string | null
-          contact_phone?: string | null
           created_at?: string
           description?: string | null
-          expires_at?: string | null
-          featured?: boolean | null
+          icon?: string | null
           id?: string
-          images?: string[] | null
-          location?: string | null
-          payment_status?: string
-          price?: number | null
-          region?: string
-          source_site?: string | null
-          status?: string
-          syndicate_to_statewide?: boolean | null
-          title: string
-          updated_at?: string
-          user_id: string
+          name: string
+          slug: string
+          sort_order?: number | null
         }
         Update: {
-          category?: string
-          contact_email?: string | null
-          contact_name?: string | null
-          contact_phone?: string | null
           created_at?: string
           description?: string | null
-          expires_at?: string | null
-          featured?: boolean | null
+          icon?: string | null
           id?: string
-          images?: string[] | null
-          location?: string | null
-          payment_status?: string
-          price?: number | null
-          region?: string
-          source_site?: string | null
-          status?: string
-          syndicate_to_statewide?: boolean | null
-          title?: string
-          updated_at?: string
-          user_id?: string
+          name?: string
+          slug?: string
+          sort_order?: number | null
         }
         Relationships: []
       }
-      network_sites: {
+      listings: {
         Row: {
-          api_key: string | null
+          category_id: string | null
+          condition: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string | null
           created_at: string
-          domain: string
+          description: string
+          engine_type: string | null
+          expires_at: string | null
+          featured_until: string | null
+          hours: number | null
           id: string
-          is_active: boolean | null
+          images: string[] | null
+          length_ft: number | null
+          listing_type: Database["public"]["Enums"]["listing_type"]
+          location: string | null
+          make: string | null
+          model: string | null
+          payment_id: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"] | null
+          price: number
           region: string
-          site_code: string
-          site_name: string
+          status: Database["public"]["Enums"]["listing_status"]
+          title: string
+          updated_at: string
+          user_id: string
+          videos: string[] | null
+          views: number | null
+          year: number | null
         }
         Insert: {
-          api_key?: string | null
+          category_id?: string | null
+          condition?: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone?: string | null
           created_at?: string
-          domain: string
+          description: string
+          engine_type?: string | null
+          expires_at?: string | null
+          featured_until?: string | null
+          hours?: number | null
           id?: string
-          is_active?: boolean | null
+          images?: string[] | null
+          length_ft?: number | null
+          listing_type?: Database["public"]["Enums"]["listing_type"]
+          location?: string | null
+          make?: string | null
+          model?: string | null
+          payment_id?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"] | null
+          price: number
           region: string
-          site_code: string
-          site_name: string
+          status?: Database["public"]["Enums"]["listing_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+          videos?: string[] | null
+          views?: number | null
+          year?: number | null
         }
         Update: {
-          api_key?: string | null
+          category_id?: string | null
+          condition?: string | null
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string | null
           created_at?: string
-          domain?: string
+          description?: string
+          engine_type?: string | null
+          expires_at?: string | null
+          featured_until?: string | null
+          hours?: number | null
           id?: string
-          is_active?: boolean | null
+          images?: string[] | null
+          length_ft?: number | null
+          listing_type?: Database["public"]["Enums"]["listing_type"]
+          location?: string | null
+          make?: string | null
+          model?: string | null
+          payment_id?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"] | null
+          price?: number
           region?: string
-          site_code?: string
-          site_name?: string
+          status?: Database["public"]["Enums"]["listing_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+          videos?: string[] | null
+          views?: number | null
+          year?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "listings_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       payments: {
         Row: {
           amount: number
           created_at: string
+          currency: string | null
+          description: string | null
           id: string
           listing_id: string | null
-          payment_method: string | null
-          status: string
-          stripe_payment_id: string | null
-          user_id: string
+          metadata: Json | null
+          payment_type: string
+          status: Database["public"]["Enums"]["payment_status"]
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          user_id: string | null
         }
         Insert: {
           amount: number
           created_at?: string
+          currency?: string | null
+          description?: string | null
           id?: string
           listing_id?: string | null
-          payment_method?: string | null
-          status?: string
-          stripe_payment_id?: string | null
-          user_id: string
+          metadata?: Json | null
+          payment_type: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
         }
         Update: {
           amount?: number
           created_at?: string
+          currency?: string | null
+          description?: string | null
           id?: string
           listing_id?: string | null
-          payment_method?: string | null
-          status?: string
-          stripe_payment_id?: string | null
-          user_id?: string
+          metadata?: Json | null
+          payment_type?: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -221,19 +268,19 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          role: string
+          role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          role?: string
+          role?: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
-          role?: string
+          role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
         Relationships: []
@@ -243,10 +290,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      has_role: { Args: { check_role: string }; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
+      listing_status: "pending" | "active" | "sold" | "expired" | "rejected"
+      listing_type: "standard" | "featured"
+      payment_status: "pending" | "completed" | "failed" | "refunded"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -373,6 +429,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+      listing_status: ["pending", "active", "sold", "expired", "rejected"],
+      listing_type: ["standard", "featured"],
+      payment_status: ["pending", "completed", "failed", "refunded"],
+    },
   },
 } as const
