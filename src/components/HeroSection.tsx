@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Anchor, Ship, Waves, Star } from "lucide-react";
+import { ArrowRight, Anchor, Ship, Waves, Star, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-import heroImage from "@/assets/network/boats-listings.jpg";
+import heroImage from "@/assets/hero-alaska-boats.jpg";
+import RegionalSearch from "@/components/RegionalSearch";
 
 const HeroSection = () => {
   return (
@@ -99,6 +100,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.9 }}
           >
+            <RegionalSearch />
             <Link to="/browse">
               <Button variant="aurora" size="lg" className="group text-white font-semibold shadow-lg">
                 Browse Boats
@@ -124,8 +126,8 @@ const HeroSection = () => {
               <div className="text-muted-foreground text-xs">Boat Types</div>
             </div>
             <div>
-              <div className="font-display text-xl md:text-2xl font-bold text-foreground">4</div>
-              <div className="text-muted-foreground text-xs">Alaska Regions</div>
+              <div className="font-display text-xl md:text-2xl font-bold text-foreground">30+</div>
+              <div className="text-muted-foreground text-xs">Alaska Locations</div>
             </div>
             <div>
               <div className="font-display text-xl md:text-2xl font-bold text-foreground">60</div>

@@ -119,10 +119,10 @@ const Footer = () => {
         <div className="mt-10 pt-6 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
             <p className="text-muted-foreground text-xs text-center md:text-left">
-              © {new Date().getFullYear()} Alaskan Boats. All rights reserved.
+              © {new Date().getFullYear()} Alaska Listings LLC. All rights reserved.
             </p>
             <p className="text-muted-foreground text-xs text-center md:text-right max-w-md">
-              Alaskan Boats is a listing service only. We do not participate in, endorse, or guarantee any transactions between users.
+              Alaska Listings LLC is a listing service only. We do not participate in, endorse, or guarantee any transactions between users.
             </p>
           </div>
         </div>

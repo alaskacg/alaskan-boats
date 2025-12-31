@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, User, LogOut, ChevronDown, Anchor } from "lucide-react";
+import { Menu, X, User, LogOut, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
+import AnimatedBoatLogo from "@/components/AnimatedBoatLogo";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
@@ -48,11 +49,11 @@ const Header = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-14 md:h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Anchor className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="font-display text-base font-bold text-foreground">Alaskan Boats</span>
+            <Link to="/" className="flex items-center gap-2 group">
+              <AnimatedBoatLogo className="w-9 h-9" />
+              <span className="font-display text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                Alaskan Boats
+              </span>
             </Link>
 
             {/* Desktop Navigation */}

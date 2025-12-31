@@ -35,9 +35,9 @@ const AnchorageRecentListings = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('listings')
-        .select('id, title, description, price, category, region, images, created_at, user_id, contact_name')
+        .select('id, title, description, price, category_id, region, images, created_at, user_id, contact_name')
         .eq('status', 'active')
-        .eq('payment_status', 'paid')
+        .eq('payment_status', 'completed')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -146,7 +146,7 @@ const AnchorageRecentListings = () => {
                     </div>
                     {/* Category Badge */}
                     <div className="absolute top-2 left-2 px-2 py-1 bg-secondary/90 backdrop-blur-sm rounded text-xs font-medium text-secondary-foreground capitalize">
-                      {listing.category.replace(/-/g, ' ')}
+                      {listing.category_id?.replace(/-/g, ' ') || 'General'}
                     </div>
                   </div>
 

@@ -14,9 +14,10 @@ interface Payment {
   listing_id: string | null;
   user_id: string | null;
   amount: number;
-  status: string;
-  stripe_payment_id: string | null;
-  payment_method: string | null;
+  status: 'pending' | 'completed' | 'failed' | 'refunded';
+  stripe_payment_intent_id: string | null;
+  stripe_session_id: string | null;
+  payment_type: string;
   created_at: string;
 }
 
@@ -35,7 +36,7 @@ const AdminPayments = () => {
         .order('created_at', { ascending: false });
 
       if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+        query = query.eq('status', statusFilter as 'pending' | 'completed' | 'failed' | 'refunded');
       }
 
       const { data, error } = await query;
@@ -71,7 +72,7 @@ const AdminPayments = () => {
   };
 
   const filteredPayments = payments.filter(payment =>
-    payment.stripe_payment_id?.toLowerCase().includes(search.toLowerCase()) ||
+    payment.stripe_payment_intent_id?.toLowerCase().includes(search.toLowerCase()) ||
     payment.id.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -154,7 +155,7 @@ const AdminPayments = () => {
                       </td>
                       <td className="px-4 py-3">{getStatusBadge(payment.status)}</td>
                       <td className="px-4 py-3 text-sm font-mono text-muted-foreground">
-                        {payment.stripe_payment_id || '—'}
+                        {payment.stripe_payment_intent_id || '—'}
                       </td>
                       <td className="px-4 py-3 text-sm text-muted-foreground">
                         {new Date(payment.created_at).toLocaleDateString()}

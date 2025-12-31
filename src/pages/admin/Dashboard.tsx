@@ -36,7 +36,7 @@ const Dashboard = () => {
         // Fetch listings stats
         const { data: listings } = await supabase.from('listings').select('status, payment_status');
         const totalListings = listings?.length || 0;
-        const activeListings = listings?.filter(l => l.status === 'active' && l.payment_status === 'paid').length || 0;
+        const activeListings = listings?.filter(l => l.status === 'active' && l.payment_status === 'completed').length || 0;
         const pendingListings = listings?.filter(l => l.status === 'pending').length || 0;
 
         // Fetch users count
