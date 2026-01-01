@@ -20,29 +20,23 @@ import { supabase } from "@/integrations/supabase/client";
 import { Upload, X, DollarSign, AlertCircle, Loader2 } from "lucide-react";
 import { listingSchema } from "@/lib/validations";
 
+import { regionGroups } from "@/data/alaskaRegions";
+import VideoUpload from "@/components/VideoUpload";
+import PageTransition, { AnimatedSection } from "@/components/PageTransition";
+
 const categories = [
-  { value: "vehicles", label: "Vehicles & Autos" },
   { value: "boats", label: "Boats & Watercraft" },
-  { value: "homes", label: "Homes for Sale" },
-  { value: "land", label: "Land & Lots" },
-  { value: "rentals", label: "Rentals" },
-  { value: "mining", label: "Mining Equipment" },
-  { value: "guides", label: "Guide Services" },
-  { value: "excavation", label: "Excavation Equipment" },
-  { value: "general", label: "General" },
+  { value: "fishing-boats", label: "Fishing Boats" },
+  { value: "commercial-vessels", label: "Commercial Vessels" },
+  { value: "kayaks-canoes", label: "Kayaks & Canoes" },
+  { value: "jet-skis", label: "Jet Skis & PWC" },
+  { value: "boat-parts", label: "Boat Parts & Accessories" },
+  { value: "motors", label: "Outboard Motors" },
+  { value: "trailers", label: "Boat Trailers" },
+  { value: "other", label: "Other Marine" },
 ];
 
-const regions = [
-  { value: "kenai", label: "Kenai Peninsula" },
-  { value: "anchorage", label: "Anchorage Area" },
-  { value: "tongass", label: "Tongass Area" },
-  { value: "alcan", label: "Alcan Corridor" },
-  { value: "bristol", label: "Bristol Bay Area" },
-  { value: "bethel", label: "Bethel Area" },
-  { value: "prudhoe", label: "Prudhoe Bay Area" },
-  { value: "chugach", label: "Chugach Region" },
-  { value: "statewide", label: "Statewide" },
-];
+// Using centralized region data
 
 const PostListing = () => {
   const navigate = useNavigate();
@@ -51,6 +45,8 @@ const PostListing = () => {
   
   const [images, setImages] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [videos, setVideos] = useState<File[]>([]);
+  const [videoPreviews, setVideoPreviews] = useState<string[]>([]);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -76,10 +72,10 @@ const PostListing = () => {
     if (!files) return;
 
     const newFiles = Array.from(files);
-    if (images.length + newFiles.length > 5) {
+    if (images.length + newFiles.length > 20) {
       toast({
         title: "Too many images",
-        description: "You can upload a maximum of 5 images per listing.",
+        description: "You can upload a maximum of 20 images per listing.",
         variant: "destructive",
       });
       return;
@@ -287,18 +283,20 @@ const PostListing = () => {
           </div>
 
           {/* Pricing Banner */}
-          <div className="bg-glass rounded-2xl p-6 mb-10 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-accent" />
+          <AnimatedSection delay={0.1}>
+            <div className="bg-glass rounded-2xl p-6 mb-10 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
+                  <DollarSign className="w-6 h-6 text-accent" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground text-sm">$20 per listing</h3>
+                  <p className="text-xs text-muted-foreground">60 days • Up to 20 images • 3 videos (2 min each)</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground text-sm">$10 per listing</h3>
-                <p className="text-xs text-muted-foreground">60 days • Up to 5 images</p>
-              </div>
+              <div className="text-2xl font-display font-bold text-accent">$20</div>
             </div>
-            <div className="text-2xl font-display font-bold text-accent">$10</div>
-          </div>
+          </AnimatedSection>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -324,16 +322,23 @@ const PostListing = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="region" className="text-sm">Region *</Label>
+                  <Label htmlFor="region" className="text-sm">Location *</Label>
                   <Select value={region} onValueChange={setRegion} required>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a region" />
+                      <SelectValue placeholder="Select location" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {regions.map((r) => (
-                        <SelectItem key={r.value} value={r.value}>
-                          {r.label}
-                        </SelectItem>
+                    <SelectContent className="max-h-[300px]">
+                      {regionGroups.map((group) => (
+                        <div key={group.name}>
+                          <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground bg-muted/50">
+                            {group.name}
+                          </div>
+                          {group.regions.map((r) => (
+                            <SelectItem key={r.value} value={r.value}>
+                              {r.label}
+                            </SelectItem>
+                          ))}
+                        </div>
                       ))}
                     </SelectContent>
                   </Select>
@@ -421,54 +426,79 @@ const PostListing = () => {
             </div>
 
             {/* Image Upload */}
-            <div className="bg-card rounded-2xl p-6 md:p-8 border border-border space-y-6">
-              <h2 className="font-display text-lg font-semibold text-foreground">
-                Images <span className="text-muted-foreground font-normal text-sm">(up to 5)</span>
-              </h2>
-              
-              {/* Upload Area */}
-              <div className="relative">
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageUpload}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  disabled={images.length >= 5}
-                />
-                <div className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors ${images.length >= 5 ? 'border-muted opacity-50' : 'border-border hover:border-primary'}`}>
-                  <Upload className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-foreground font-medium mb-1 text-sm">
-                    {images.length >= 5 ? 'Maximum images reached' : 'Drop images here or click to upload'}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    PNG, JPG up to 10MB each
-                  </p>
+            <AnimatedSection delay={0.3}>
+              <div className="bg-card rounded-2xl p-6 md:p-8 border border-border space-y-6">
+                <h2 className="font-display text-lg font-semibold text-foreground">
+                  Images <span className="text-muted-foreground font-normal text-sm">(up to 20)</span>
+                </h2>
+                
+                {/* Upload Area */}
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    disabled={images.length >= 20}
+                  />
+                  <div className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors ${images.length >= 20 ? 'border-muted opacity-50' : 'border-border hover:border-primary'}`}>
+                    <Upload className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-foreground font-medium mb-1 text-sm">
+                      {images.length >= 20 ? 'Maximum images reached' : 'Drop images here or click to upload'}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      PNG, JPG up to 10MB each
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Image Previews */}
-              {imagePreview.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  {imagePreview.map((preview, index) => (
-                    <div key={index} className="relative group aspect-square">
-                      <img
-                        src={preview}
-                        alt={`Preview ${index + 1}`}
-                        className="w-full h-full object-cover rounded-xl"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                {/* Image Previews */}
+                {imagePreview.length > 0 && (
+                  <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
+                    {imagePreview.map((preview, index) => (
+                      <div key={index} className="relative group aspect-square">
+                        <img
+                          src={preview}
+                          alt={`Preview ${index + 1}`}
+                          className="w-full h-full object-cover rounded-xl"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(index)}
+                          className="absolute top-2 right-2 w-6 h-6 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        {index === 0 && (
+                          <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded">
+                            Cover
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </AnimatedSection>
+
+            {/* Video Upload */}
+            <AnimatedSection delay={0.35}>
+              <div className="bg-card rounded-2xl p-6 md:p-8 border border-border space-y-6">
+                <h2 className="font-display text-lg font-semibold text-foreground">
+                  Videos <span className="text-muted-foreground font-normal text-sm">(up to 3, max 2 minutes each)</span>
+                </h2>
+                <VideoUpload
+                  videos={videos}
+                  setVideos={setVideos}
+                  videoPreviews={videoPreviews}
+                  setVideoPreviews={setVideoPreviews}
+                  maxVideos={3}
+                  maxDurationSeconds={120}
+                  maxSizeMB={100}
+                />
+              </div>
+            </AnimatedSection>
 
             {/* Terms */}
             <div className="bg-card rounded-2xl p-6 md:p-8 border border-border space-y-6">
