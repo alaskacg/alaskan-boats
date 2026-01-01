@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Anchor, Ship, Waves, Star, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-import heroImage from "@/assets/hero-alaska-boats.jpg";
+import heroImage from "@/assets/hero-southeast-harbor.jpg";
 import RegionalSearch from "@/components/RegionalSearch";
 
 const HeroSection = () => {

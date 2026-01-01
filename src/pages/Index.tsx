@@ -5,6 +5,8 @@ import RecentListings from "@/components/RecentListings";
 import CTASection from "@/components/CTASection";
 import TrustIndicators from "@/components/TrustIndicators";
 import SEOHead from "@/components/SEOHead";
+import BoatTypesSection from "@/components/BoatTypesSection";
+import RegionsShowcase from "@/components/RegionsShowcase";
 
 const Index = () => {
   return (
@@ -14,6 +16,8 @@ const Index = () => {
       <main>
         <HeroSection />
         <TrustIndicators />
+        <BoatTypesSection />
+        <RegionsShowcase />
         <RecentListings />
         <CTASection />
       </main>
