@@ -14,6 +14,187 @@ export type Database = {
   }
   public: {
     Tables: {
+      boat_makes: {
+        Row: {
+          country: string | null
+          created_at: string
+          description: string | null
+          founded_year: number | null
+          id: string
+          is_active: boolean | null
+          name: string
+          website: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          founded_year?: number | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          website?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          founded_year?: number | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      boat_models: {
+        Row: {
+          alaska_notes: string | null
+          alaska_suitability_score: number | null
+          base_msrp: number | null
+          beam_ft: number | null
+          category: string
+          common_uses: string[] | null
+          cons: string[] | null
+          created_at: string
+          draft_ft: number | null
+          features: string[] | null
+          fuel_capacity_gal: number | null
+          hull_material: string | null
+          hull_type: string | null
+          id: string
+          is_active: boolean | null
+          length_max_ft: number | null
+          length_min_ft: number | null
+          maintenance_notes: string | null
+          make_id: string
+          max_year: number | null
+          min_year: number | null
+          name: string
+          passenger_capacity: number | null
+          propulsion_type: string | null
+          pros: string[] | null
+          subcategory: string | null
+          weight_lbs: number | null
+        }
+        Insert: {
+          alaska_notes?: string | null
+          alaska_suitability_score?: number | null
+          base_msrp?: number | null
+          beam_ft?: number | null
+          category: string
+          common_uses?: string[] | null
+          cons?: string[] | null
+          created_at?: string
+          draft_ft?: number | null
+          features?: string[] | null
+          fuel_capacity_gal?: number | null
+          hull_material?: string | null
+          hull_type?: string | null
+          id?: string
+          is_active?: boolean | null
+          length_max_ft?: number | null
+          length_min_ft?: number | null
+          maintenance_notes?: string | null
+          make_id: string
+          max_year?: number | null
+          min_year?: number | null
+          name: string
+          passenger_capacity?: number | null
+          propulsion_type?: string | null
+          pros?: string[] | null
+          subcategory?: string | null
+          weight_lbs?: number | null
+        }
+        Update: {
+          alaska_notes?: string | null
+          alaska_suitability_score?: number | null
+          base_msrp?: number | null
+          beam_ft?: number | null
+          category?: string
+          common_uses?: string[] | null
+          cons?: string[] | null
+          created_at?: string
+          draft_ft?: number | null
+          features?: string[] | null
+          fuel_capacity_gal?: number | null
+          hull_material?: string | null
+          hull_type?: string | null
+          id?: string
+          is_active?: boolean | null
+          length_max_ft?: number | null
+          length_min_ft?: number | null
+          maintenance_notes?: string | null
+          make_id?: string
+          max_year?: number | null
+          min_year?: number | null
+          name?: string
+          passenger_capacity?: number | null
+          propulsion_type?: string | null
+          pros?: string[] | null
+          subcategory?: string | null
+          weight_lbs?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "boat_models_make_id_fkey"
+            columns: ["make_id"]
+            isOneToOne: false
+            referencedRelation: "boat_makes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      boat_value_estimates: {
+        Row: {
+          condition: string
+          created_at: string
+          high_value: number
+          id: string
+          last_updated: string
+          low_value: number
+          mid_value: number
+          model_id: string
+          region: string | null
+          source: string | null
+          year: number
+        }
+        Insert: {
+          condition: string
+          created_at?: string
+          high_value: number
+          id?: string
+          last_updated?: string
+          low_value: number
+          mid_value: number
+          model_id: string
+          region?: string | null
+          source?: string | null
+          year: number
+        }
+        Update: {
+          condition?: string
+          created_at?: string
+          high_value?: number
+          id?: string
+          last_updated?: string
+          low_value?: number
+          mid_value?: number
+          model_id?: string
+          region?: string | null
+          source?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "boat_value_estimates_model_id_fkey"
+            columns: ["model_id"]
+            isOneToOne: false
+            referencedRelation: "boat_models"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categories: {
         Row: {
           created_at: string
@@ -44,6 +225,224 @@ export type Database = {
         }
         Relationships: []
       }
+      dealer_agreement_acceptances: {
+        Row: {
+          accepted_at: string
+          agreement_id: string
+          dealer_id: string
+          id: string
+          ip_address: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          accepted_at?: string
+          agreement_id: string
+          dealer_id: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          accepted_at?: string
+          agreement_id?: string
+          dealer_id?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_agreement_acceptances_agreement_id_fkey"
+            columns: ["agreement_id"]
+            isOneToOne: false
+            referencedRelation: "dealer_agreements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dealer_agreement_acceptances_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_agreements: {
+        Row: {
+          content: string
+          created_at: string
+          effective_date: string
+          id: string
+          is_current: boolean | null
+          title: string
+          version: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          effective_date: string
+          id?: string
+          is_current?: boolean | null
+          title: string
+          version: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          effective_date?: string
+          id?: string
+          is_current?: boolean | null
+          title?: string
+          version?: string
+        }
+        Relationships: []
+      }
+      dealer_plans: {
+        Row: {
+          created_at: string
+          features: string[]
+          id: string
+          is_active: boolean | null
+          max_listings: number | null
+          name: string
+          price_annual: number | null
+          price_monthly: number
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string
+          features: string[]
+          id?: string
+          is_active?: boolean | null
+          max_listings?: number | null
+          name: string
+          price_annual?: number | null
+          price_monthly: number
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string
+          features?: string[]
+          id?: string
+          is_active?: boolean | null
+          max_listings?: number | null
+          name?: string
+          price_annual?: number | null
+          price_monthly?: number
+          sort_order?: number | null
+        }
+        Relationships: []
+      }
+      dealers: {
+        Row: {
+          address_line1: string
+          address_line2: string | null
+          business_license: string
+          business_name: string
+          city: string
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at: string
+          description: string | null
+          id: string
+          logo_url: string | null
+          plan_id: string | null
+          rating_average: number | null
+          rating_count: number | null
+          rejection_reason: string | null
+          state: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          subscription_ends_at: string | null
+          subscription_started_at: string | null
+          subscription_status: string
+          total_listings: number | null
+          total_sales: number | null
+          updated_at: string
+          user_id: string
+          verification_status: string
+          verified_at: string | null
+          verified_by: string | null
+          website: string | null
+          zip_code: string
+        }
+        Insert: {
+          address_line1: string
+          address_line2?: string | null
+          business_license: string
+          business_name: string
+          city: string
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          plan_id?: string | null
+          rating_average?: number | null
+          rating_count?: number | null
+          rejection_reason?: string | null
+          state?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_ends_at?: string | null
+          subscription_started_at?: string | null
+          subscription_status?: string
+          total_listings?: number | null
+          total_sales?: number | null
+          updated_at?: string
+          user_id: string
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          website?: string | null
+          zip_code: string
+        }
+        Update: {
+          address_line1?: string
+          address_line2?: string | null
+          business_license?: string
+          business_name?: string
+          city?: string
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          plan_id?: string | null
+          rating_average?: number | null
+          rating_count?: number | null
+          rejection_reason?: string | null
+          state?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_ends_at?: string | null
+          subscription_started_at?: string | null
+          subscription_status?: string
+          total_listings?: number | null
+          total_sales?: number | null
+          updated_at?: string
+          user_id?: string
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          website?: string | null
+          zip_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealers_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "dealer_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       listings: {
         Row: {
           category_id: string | null
@@ -52,6 +451,7 @@ export type Database = {
           contact_name: string
           contact_phone: string | null
           created_at: string
+          dealer_id: string | null
           description: string
           engine_type: string | null
           expires_at: string | null
@@ -59,6 +459,7 @@ export type Database = {
           hours: number | null
           id: string
           images: string[] | null
+          is_dealer_listing: boolean | null
           length_ft: number | null
           listing_type: Database["public"]["Enums"]["listing_type"]
           location: string | null
@@ -83,6 +484,7 @@ export type Database = {
           contact_name: string
           contact_phone?: string | null
           created_at?: string
+          dealer_id?: string | null
           description: string
           engine_type?: string | null
           expires_at?: string | null
@@ -90,6 +492,7 @@ export type Database = {
           hours?: number | null
           id?: string
           images?: string[] | null
+          is_dealer_listing?: boolean | null
           length_ft?: number | null
           listing_type?: Database["public"]["Enums"]["listing_type"]
           location?: string | null
@@ -114,6 +517,7 @@ export type Database = {
           contact_name?: string
           contact_phone?: string | null
           created_at?: string
+          dealer_id?: string | null
           description?: string
           engine_type?: string | null
           expires_at?: string | null
@@ -121,6 +525,7 @@ export type Database = {
           hours?: number | null
           id?: string
           images?: string[] | null
+          is_dealer_listing?: boolean | null
           length_ft?: number | null
           listing_type?: Database["public"]["Enums"]["listing_type"]
           location?: string | null
@@ -144,6 +549,188 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listings_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      motor_makes: {
+        Row: {
+          country: string | null
+          created_at: string
+          description: string | null
+          founded_year: number | null
+          id: string
+          is_active: boolean | null
+          motor_types: string[] | null
+          name: string
+          website: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          founded_year?: number | null
+          id?: string
+          is_active?: boolean | null
+          motor_types?: string[] | null
+          name: string
+          website?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          founded_year?: number | null
+          id?: string
+          is_active?: boolean | null
+          motor_types?: string[] | null
+          name?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      motor_models: {
+        Row: {
+          alaska_cold_weather_rating: number | null
+          base_msrp: number | null
+          common_issues: string[] | null
+          cons: string[] | null
+          created_at: string
+          cylinders: number | null
+          displacement_cc: number | null
+          features: string[] | null
+          fuel_consumption_gph: number | null
+          fuel_type: string | null
+          horsepower: number
+          id: string
+          is_active: boolean | null
+          maintenance_notes: string | null
+          make_id: string
+          max_year: number | null
+          min_year: number | null
+          motor_type: string
+          name: string
+          pros: string[] | null
+          service_interval_hours: number | null
+          shaft_length: string | null
+          weight_lbs: number | null
+        }
+        Insert: {
+          alaska_cold_weather_rating?: number | null
+          base_msrp?: number | null
+          common_issues?: string[] | null
+          cons?: string[] | null
+          created_at?: string
+          cylinders?: number | null
+          displacement_cc?: number | null
+          features?: string[] | null
+          fuel_consumption_gph?: number | null
+          fuel_type?: string | null
+          horsepower: number
+          id?: string
+          is_active?: boolean | null
+          maintenance_notes?: string | null
+          make_id: string
+          max_year?: number | null
+          min_year?: number | null
+          motor_type: string
+          name: string
+          pros?: string[] | null
+          service_interval_hours?: number | null
+          shaft_length?: string | null
+          weight_lbs?: number | null
+        }
+        Update: {
+          alaska_cold_weather_rating?: number | null
+          base_msrp?: number | null
+          common_issues?: string[] | null
+          cons?: string[] | null
+          created_at?: string
+          cylinders?: number | null
+          displacement_cc?: number | null
+          features?: string[] | null
+          fuel_consumption_gph?: number | null
+          fuel_type?: string | null
+          horsepower?: number
+          id?: string
+          is_active?: boolean | null
+          maintenance_notes?: string | null
+          make_id?: string
+          max_year?: number | null
+          min_year?: number | null
+          motor_type?: string
+          name?: string
+          pros?: string[] | null
+          service_interval_hours?: number | null
+          shaft_length?: string | null
+          weight_lbs?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "motor_models_make_id_fkey"
+            columns: ["make_id"]
+            isOneToOne: false
+            referencedRelation: "motor_makes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      motor_value_estimates: {
+        Row: {
+          condition: string
+          created_at: string
+          high_value: number
+          hours_range_high: number | null
+          hours_range_low: number | null
+          id: string
+          last_updated: string
+          low_value: number
+          mid_value: number
+          model_id: string
+          source: string | null
+          year: number
+        }
+        Insert: {
+          condition: string
+          created_at?: string
+          high_value: number
+          hours_range_high?: number | null
+          hours_range_low?: number | null
+          id?: string
+          last_updated?: string
+          low_value: number
+          mid_value: number
+          model_id: string
+          source?: string | null
+          year: number
+        }
+        Update: {
+          condition?: string
+          created_at?: string
+          high_value?: number
+          hours_range_high?: number | null
+          hours_range_low?: number | null
+          id?: string
+          last_updated?: string
+          low_value?: number
+          mid_value?: number
+          model_id?: string
+          source?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "motor_value_estimates_model_id_fkey"
+            columns: ["model_id"]
+            isOneToOne: false
+            referencedRelation: "motor_models"
             referencedColumns: ["id"]
           },
         ]

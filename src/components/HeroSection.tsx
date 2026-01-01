@@ -4,6 +4,7 @@ import { ArrowRight, Anchor, Ship, Waves, Star, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import heroImage from "@/assets/hero-southeast-harbor.jpg";
 import RegionalSearch from "@/components/RegionalSearch";
+import AnimatedBoatLogo from "@/components/AnimatedBoatLogo";
 
 const HeroSection = () => {
   return (
@@ -29,34 +30,65 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="max-w-5xl mx-auto">
-          {/* Main heading */}
-          <motion.h1 
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 animate-text-glint"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+          {/* Animated Anchor Logo */}
+          <motion.div
+            className="flex justify-center mb-4"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            Alaskan Boats
-          </motion.h1>
+            <AnimatedBoatLogo className="w-20 h-20 md:w-24 md:h-24" />
+          </motion.div>
 
-          {/* Tagline with slide-up transition and pulse animation */}
+          {/* Main heading with wave animation */}
+          <motion.div
+            className="relative overflow-hidden mb-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.h1 
+              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground"
+              initial={{ y: 60, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            >
+              <motion.span
+                className="inline-block bg-gradient-to-r from-primary via-ocean-teal to-primary bg-[length:200%_100%] bg-clip-text text-transparent"
+                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+              >
+                Alaskan Boats
+              </motion.span>
+            </motion.h1>
+          </motion.div>
+
+          {/* Tagline with typewriter-style reveal */}
           <motion.div 
             className="mb-8 overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
           >
             <motion.p 
-              className="font-sans text-sm sm:text-base md:text-lg tracking-[0.2em] uppercase font-medium animate-subtitle-pulse"
-              initial={{ y: 50, opacity: 0 }}
+              className="font-sans text-sm sm:text-base md:text-lg tracking-[0.2em] uppercase font-medium"
+              initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ 
-                duration: 1, 
-                delay: 0.6,
+                duration: 0.8, 
+                delay: 0.7,
                 ease: [0.22, 1, 0.36, 1]
               }}
             >
-              Alaska's Premier Boat Marketplace
+              <motion.span
+                className="inline-block text-muted-foreground"
+                animate={{ 
+                  color: ["hsl(var(--muted-foreground))", "hsl(var(--primary))", "hsl(var(--ocean-teal))", "hsl(var(--muted-foreground))"]
+                }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              >
+                Alaska's Premier Boat Marketplace
+              </motion.span>
             </motion.p>
           </motion.div>
 
