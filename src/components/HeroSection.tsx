@@ -31,7 +31,7 @@ const HeroSection = () => {
         <div className="max-w-5xl mx-auto">
           {/* Main heading */}
           <motion.h1 
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 text-foreground"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 animate-text-glint"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -39,7 +39,7 @@ const HeroSection = () => {
             Alaskan Boats
           </motion.h1>
 
-          {/* Tagline */}
+          {/* Tagline with slide-up transition and pulse animation */}
           <motion.div 
             className="mb-8 overflow-hidden"
             initial={{ opacity: 0 }}
@@ -47,12 +47,12 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <motion.p 
-              className="font-sans text-sm sm:text-base md:text-lg tracking-[0.2em] uppercase font-medium text-muted-foreground"
-              initial={{ y: 40, opacity: 0 }}
+              className="font-sans text-sm sm:text-base md:text-lg tracking-[0.2em] uppercase font-medium animate-subtitle-pulse"
+              initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ 
-                duration: 0.8, 
-                delay: 0.5,
+                duration: 1, 
+                delay: 0.6,
                 ease: [0.22, 1, 0.36, 1]
               }}
             >
