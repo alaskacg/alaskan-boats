@@ -80,7 +80,7 @@ const Register = () => {
     } else {
       toast({
         title: "Account Created!",
-        description: "Welcome to Alcan Listings! You are now signed in.",
+        description: "Welcome to Alaskan Boats! You are now signed in.",
       });
       navigate('/');
     }

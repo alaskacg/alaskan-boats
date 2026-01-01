@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Search, SlidersHorizontal, X, Calendar, DollarSign, ArrowUpDown, Grid, List } from "lucide-react";
+import { Search, SlidersHorizontal, X, Calendar, DollarSign, ArrowUpDown, Grid, List, Anchor, MapPin, Clock } from "lucide-react";
 import SellerTrustBadge from "@/components/SellerTrustBadge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
+import { browseRegionOptions, regionGroups } from "@/data/alaskaRegions";
+import PageTransition, { AnimatedSection } from "@/components/PageTransition";
+import { formatDistanceToNow } from "date-fns";
 
 interface Listing {
   id: string;
@@ -126,100 +130,118 @@ const Browse = () => {
 
   const hasActiveFilters = category !== 'all' || region !== 'all' || minPrice || maxPrice || search;
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-20 md:pt-24 pb-16">
-        <div className="container mx-auto px-4">
-          {/* Page Header */}
-          <div className="text-center mb-8">
-            <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Browse Alaska Listings
-            </h1>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              Discover what Alaskans are selling across all regions and categories
-            </p>
-          </div>
-
-          {/* Search & Filter Bar */}
-          <div className="bg-card rounded-xl p-4 border border-border mb-6">
-            <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-3">
-              {/* Search Input */}
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search listings..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9 text-sm"
-                />
+      <PageTransition>
+        <main className="pt-20 md:pt-24 pb-16">
+          <div className="container mx-auto px-4">
+            {/* Page Header */}
+            <AnimatedSection className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-4">
+                <Anchor className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-primary">Browse Boats</span>
               </div>
+              <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
+                Find Your Perfect Boat
+              </h1>
+              <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+                Search boats for sale across 30+ Alaska locations
+              </p>
+            </AnimatedSection>
 
-              {/* Quick Filters */}
-              <div className="flex flex-wrap gap-2">
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="w-[140px] text-sm">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="vehicles">Vehicles</SelectItem>
-                    <SelectItem value="boats">Boats</SelectItem>
-                    <SelectItem value="homes">Homes</SelectItem>
-                    <SelectItem value="land">Land</SelectItem>
-                    <SelectItem value="rentals">Rentals</SelectItem>
-                    <SelectItem value="mining">Mining</SelectItem>
-                    <SelectItem value="guides">Guides</SelectItem>
-                    <SelectItem value="general">General</SelectItem>
-                  </SelectContent>
-                </Select>
+            {/* Search & Filter Bar */}
+            <AnimatedSection delay={0.1}>
+              <div className="bg-card rounded-xl p-4 border border-border mb-6">
+                <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-3">
+                  {/* Search Input */}
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search boats..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="pl-9 text-sm"
+                    />
+                  </div>
 
-                <Select value={region} onValueChange={setRegion}>
-                  <SelectTrigger className="w-[140px] text-sm">
-                    <SelectValue placeholder="Region" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Regions</SelectItem>
-                    <SelectItem value="kenai">Kenai Peninsula</SelectItem>
-                    <SelectItem value="anchorage">Anchorage Area</SelectItem>
-                    <SelectItem value="tongass">Tongass Area</SelectItem>
-                    <SelectItem value="alcan">Alcan Corridor</SelectItem>
-                    <SelectItem value="bristol">Bristol Bay Area</SelectItem>
-                    <SelectItem value="bethel">Bethel Area</SelectItem>
-                    <SelectItem value="prudhoe">Prudhoe Bay Area</SelectItem>
-                    <SelectItem value="chugach">Chugach Region</SelectItem>
-                    <SelectItem value="statewide">Statewide</SelectItem>
-                  </SelectContent>
-                </Select>
+                  {/* Quick Filters */}
+                  <div className="flex flex-wrap gap-2">
+                    <Select value={category} onValueChange={setCategory}>
+                      <SelectTrigger className="w-[140px] text-sm">
+                        <SelectValue placeholder="Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="boats">Boats & Watercraft</SelectItem>
+                        <SelectItem value="fishing-boats">Fishing Boats</SelectItem>
+                        <SelectItem value="commercial-vessels">Commercial Vessels</SelectItem>
+                        <SelectItem value="kayaks-canoes">Kayaks & Canoes</SelectItem>
+                        <SelectItem value="jet-skis">Jet Skis & PWC</SelectItem>
+                        <SelectItem value="boat-parts">Parts & Accessories</SelectItem>
+                        <SelectItem value="motors">Outboard Motors</SelectItem>
+                        <SelectItem value="trailers">Boat Trailers</SelectItem>
+                      </SelectContent>
+                    </Select>
 
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-[140px] text-sm">
-                    <ArrowUpDown className="w-3 h-3 mr-1" />
-                    <SelectValue placeholder="Sort" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="newest">
-                      <span className="flex items-center gap-2">
-                        <Calendar className="w-3 h-3" /> Newest First
-                      </span>
-                    </SelectItem>
-                    <SelectItem value="oldest">
-                      <span className="flex items-center gap-2">
-                        <Calendar className="w-3 h-3" /> Oldest First
-                      </span>
-                    </SelectItem>
-                    <SelectItem value="price-low">
-                      <span className="flex items-center gap-2">
-                        <DollarSign className="w-3 h-3" /> Price: Low to High
-                      </span>
-                    </SelectItem>
-                    <SelectItem value="price-high">
-                      <span className="flex items-center gap-2">
-                        <DollarSign className="w-3 h-3" /> Price: High to Low
-                      </span>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                    <Select value={region} onValueChange={setRegion}>
+                      <SelectTrigger className="w-[160px] text-sm">
+                        <SelectValue placeholder="Location" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[300px]">
+                        <SelectItem value="all">All Locations</SelectItem>
+                        {regionGroups.map((group) => (
+                          <div key={group.name}>
+                            <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground bg-muted/50">
+                              {group.name}
+                            </div>
+                            {group.regions.map((r) => (
+                              <SelectItem key={r.value} value={r.value}>
+                                {r.label}
+                              </SelectItem>
+                            ))}
+                          </div>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger className="w-[140px] text-sm">
+                        <ArrowUpDown className="w-3 h-3 mr-1" />
+                        <SelectValue placeholder="Sort" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">
+                          <span className="flex items-center gap-2">
+                            <Calendar className="w-3 h-3" /> Newest First
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="oldest">
+                          <span className="flex items-center gap-2">
+                            <Calendar className="w-3 h-3" /> Oldest First
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="price-low">
+                          <span className="flex items-center gap-2">
+                            <DollarSign className="w-3 h-3" /> Price: Low to High
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="price-high">
+                          <span className="flex items-center gap-2">
+                            <DollarSign className="w-3 h-3" /> Price: High to Low
+                          </span>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
 
                 {/* Advanced Filters Sheet */}
                 <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
@@ -337,6 +359,7 @@ const Browse = () => {
               </div>
             )}
           </div>
+            </AnimatedSection>
 
           {/* Results Header */}
           <div className="flex items-center justify-between mb-4">
@@ -449,8 +472,9 @@ const Browse = () => {
               ))}
             </div>
           )}
-        </div>
-      </main>
+          </div>
+        </main>
+      </PageTransition>
       <Footer />
     </div>
   );
