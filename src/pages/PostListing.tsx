@@ -17,8 +17,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, X, DollarSign, AlertCircle, Loader2 } from "lucide-react";
+import { Upload, X, Gift, AlertCircle, Loader2, Sparkles, Mail, AlertTriangle } from "lucide-react";
 import { listingSchema } from "@/lib/validations";
+import { useBetaListingLimit } from "@/hooks/useBetaListingLimit";
 
 import { regionGroups } from "@/data/alaskaRegions";
 import VideoUpload from "@/components/VideoUpload";
@@ -42,6 +43,7 @@ const PostListing = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
+  const { canPost, currentListings, maxListings, remainingListings, isEmailVerified, loading: betaLoading } = useBetaListingLimit();
   
   const [images, setImages] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -182,6 +184,25 @@ const PostListing = () => {
       return;
     }
 
+    // Beta period checks
+    if (!isEmailVerified) {
+      toast({
+        title: "Email Verification Required",
+        description: "Please verify your email address to post listings during our beta period.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!canPost) {
+      toast({
+        title: "Beta Listing Limit Reached",
+        description: `You've reached the maximum of ${maxListings} free listings during beta.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!agreedToTerms) {
       toast({
         title: "Terms Required",
@@ -242,8 +263,8 @@ const PostListing = () => {
       }
 
       toast({
-        title: "Listing Created",
-        description: "Your listing has been submitted. Payment integration coming soon - your listing will be reviewed by admin.",
+        title: "🎉 Free Beta Listing Created!",
+        description: "Thank you for being a beta user! Your listing is now pending review.",
       });
 
       navigate('/my-listings');
@@ -259,7 +280,7 @@ const PostListing = () => {
     }
   };
 
-  if (authLoading) {
+  if (authLoading || betaLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -272,29 +293,81 @@ const PostListing = () => {
       <Header />
       <main className="pt-24 md:pt-28 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
+          {/* Beta Badge */}
+          <div className="inline-flex items-center gap-2 bg-accent/20 text-accent border border-accent/30 rounded-full px-4 py-2 mb-6">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-semibold">Beta Launch - Free Listings!</span>
+          </div>
+
           {/* Page Header */}
           <div className="text-center mb-10">
             <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
               Post Your Listing
             </h1>
             <p className="text-muted-foreground text-sm">
-              Fill out the form below to create your listing. All listings are $10 and active for 60 days.
+              Fill out the form below to create your free listing. Active for 60 days!
             </p>
           </div>
 
-          {/* Pricing Banner */}
-          <AnimatedSection delay={0.1}>
-            <div className="bg-glass rounded-2xl p-6 mb-10 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
-                  <DollarSign className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground text-sm">$20 per listing</h3>
-                  <p className="text-xs text-muted-foreground">60 days • Up to 20 images • 3 videos (2 min each)</p>
+          {/* Email Verification Warning */}
+          {user && !isEmailVerified && (
+            <AnimatedSection delay={0.05}>
+              <div className="bg-destructive/10 border border-destructive/30 rounded-2xl p-6 mb-6">
+                <div className="flex items-start gap-4">
+                  <Mail className="w-6 h-6 text-destructive flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-destructive text-sm mb-2">Email Verification Required</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Please verify your email address to post listings during our beta period. Check your inbox for the verification email.
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="text-2xl font-display font-bold text-accent">$20</div>
+            </AnimatedSection>
+          )}
+
+          {/* Listing Limit Warning */}
+          {user && isEmailVerified && remainingListings === 0 && (
+            <AnimatedSection delay={0.05}>
+              <div className="bg-destructive/10 border border-destructive/30 rounded-2xl p-6 mb-6">
+                <div className="flex items-start gap-4">
+                  <AlertTriangle className="w-6 h-6 text-destructive flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-destructive text-sm mb-2">Beta Listing Limit Reached</h3>
+                    <p className="text-sm text-muted-foreground">
+                      You've reached the maximum of {maxListings} free listings during our beta period. 
+                      Once beta ends, you'll be able to post additional listings.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          )}
+
+          {/* Beta Pricing Banner */}
+          <AnimatedSection delay={0.1}>
+            <div className="bg-gradient-to-r from-accent/20 via-primary/20 to-accent/20 border-2 border-accent/30 rounded-2xl p-6 mb-10 relative overflow-hidden">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full">
+                BETA SPECIAL
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
+                    <Gift className="w-6 h-6 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground text-sm">Free during beta!</h3>
+                    <p className="text-xs text-muted-foreground">60 days • Up to 20 images • 3 videos (2 min each)</p>
+                    <p className="text-xs text-accent font-medium mt-1">
+                      {remainingListings} of {maxListings} free listings remaining
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-display font-bold text-accent">FREE</div>
+                  <div className="text-xs text-muted-foreground line-through">$20</div>
+                </div>
+              </div>
             </div>
           </AnimatedSection>
 
@@ -507,11 +580,12 @@ const PostListing = () => {
                 <div className="space-y-4">
                   <h3 className="font-semibold text-foreground text-sm">Important Information</h3>
                   <ul className="text-xs text-muted-foreground space-y-2 list-disc list-inside">
-                    <li>Your listing will be active for 60 days from the date of purchase</li>
+                    <li>Your free beta listing will be active for 60 days</li>
                     <li>Listings are automatically removed after expiration unless renewed</li>
                     <li>Alaska Listings LLC is a listing service only and does not participate in transactions</li>
                     <li>All transactions are between buyer and seller directly</li>
                     <li>We reserve the right to remove listings that violate our terms</li>
+                    <li className="text-accent font-medium">Beta period: {remainingListings} free listings remaining for your account</li>
                   </ul>
                 </div>
               </div>
@@ -521,6 +595,7 @@ const PostListing = () => {
                   id="terms"
                   checked={agreedToTerms}
                   onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
+                  disabled={!canPost}
                 />
                 <Label htmlFor="terms" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
                   I have read and agree to the{" "}
@@ -538,15 +613,25 @@ const PostListing = () => {
               variant="gold"
               size="lg"
               className="w-full"
-              disabled={isSubmitting || !agreedToTerms}
+              disabled={isSubmitting || !agreedToTerms || !canPost}
             >
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Creating Listing...
+                  Creating Free Listing...
                 </>
+              ) : !isEmailVerified ? (
+                <>
+                  <Mail className="w-4 h-4 mr-2" />
+                  Verify Email to Post
+                </>
+              ) : !canPost ? (
+                "Beta Limit Reached"
               ) : (
-                "Submit Listing"
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Submit Free Listing
+                </>
               )}
             </Button>
           </form>
