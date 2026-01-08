@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, User, LogOut, ChevronDown } from "lucide-react";
+import { Menu, X, User, LogOut, ChevronDown, Sparkles } from "lucide-react";
+import BetaBanner from "@/components/BetaBanner";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import AnimatedBoatLogo from "@/components/AnimatedBoatLogo";
@@ -45,6 +46,7 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
+      <BetaBanner />
       <div className="bg-glass">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-14 md:h-16">
