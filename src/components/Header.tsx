@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, User, LogOut, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, X, User, LogOut, ChevronDown } from "lucide-react";
 import BetaBanner from "@/components/BetaBanner";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
-import AnimatedBoatLogo from "@/components/AnimatedBoatLogo";
+import TraditionalAnchorLogo from "@/components/TraditionalAnchorLogo";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
@@ -52,7 +52,7 @@ const Header = () => {
           <div className="flex items-center justify-between h-14 md:h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
-              <AnimatedBoatLogo className="w-9 h-9" />
+              <TraditionalAnchorLogo className="w-8 h-10" />
               <span className="font-display text-base font-bold text-foreground group-hover:text-primary transition-colors">
                 Alaskan Boats
               </span>

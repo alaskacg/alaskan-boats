@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Brain, ArrowUpRight, Zap } from "lucide-react";
+import { Brain, ArrowUpRight, Zap, Shield, Target, TrendingUp } from "lucide-react";
 
 const AlaskaConsultingAd = () => {
   return (
@@ -7,111 +7,165 @@ const AlaskaConsultingAd = () => {
       href="https://alaskacg.com"
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative block overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-950 via-slate-900 to-blue-950 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-500 shadow-lg hover:shadow-blue-500/10"
+      className="group relative block overflow-hidden rounded-2xl border border-indigo-700/30 hover:border-indigo-500/50 transition-all duration-500 shadow-xl"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ scale: 1.01 }}
+      whileHover={{ scale: 1.005 }}
     >
-      {/* Animated neural network background */}
-      <div className="absolute inset-0 overflow-hidden opacity-20">
-        <svg className="absolute w-full h-full" viewBox="0 0 400 200">
-          {/* Network nodes */}
-          {[
-            { cx: 50, cy: 40 }, { cx: 120, cy: 80 }, { cx: 80, cy: 140 },
-            { cx: 180, cy: 50 }, { cx: 220, cy: 120 }, { cx: 160, cy: 160 },
-            { cx: 280, cy: 70 }, { cx: 320, cy: 130 }, { cx: 350, cy: 60 },
-          ].map((pos, i) => (
-            <motion.circle
+      {/* Neural network animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950">
+        {/* Animated grid */}
+        <div className="absolute inset-0 opacity-10">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `linear-gradient(hsl(220, 60%, 50%, 0.4) 1px, transparent 1px),
+                               linear-gradient(90deg, hsl(220, 60%, 50%, 0.4) 1px, transparent 1px)`,
+              backgroundSize: "50px 50px",
+            }}
+          />
+        </div>
+        
+        {/* Pulsing center glow */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full"
+          style={{ background: "radial-gradient(circle, hsl(220, 80%, 50%, 0.15) 0%, transparent 70%)" }}
+          animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {/* Floating data nodes */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(8)].map((_, i) => (
+            <motion.div
               key={i}
-              cx={pos.cx}
-              cy={pos.cy}
-              r="3"
-              fill="hsl(220, 80%, 60%)"
-              animate={{ opacity: [0.3, 1, 0.3], r: [2, 4, 2] }}
-              transition={{ duration: 2, delay: i * 0.2, repeat: Infinity }}
+              className="absolute w-2 h-2 rounded-full bg-indigo-400/50"
+              style={{
+                left: `${15 + i * 12}%`,
+                top: `${25 + (i % 3) * 25}%`,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0.3, 0.8, 0.3],
+                scale: [1, 1.5, 1],
+              }}
+              transition={{
+                duration: 3,
+                delay: i * 0.3,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             />
           ))}
-          {/* Network lines */}
-          <motion.path
-            d="M50,40 L120,80 L180,50 L280,70 M120,80 L220,120 L320,130 M80,140 L160,160 L220,120"
-            stroke="hsl(220, 70%, 50%)"
-            strokeWidth="0.5"
-            fill="none"
-            strokeDasharray="4 4"
-            animate={{ strokeDashoffset: [0, -20] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-          />
-        </svg>
+          
+          {/* Connection lines */}
+          <svg className="absolute inset-0 w-full h-full opacity-20">
+            <motion.path
+              d="M50,60 Q150,40 250,70 T450,50"
+              stroke="hsl(220, 70%, 60%)"
+              strokeWidth="1"
+              fill="none"
+              strokeDasharray="5 5"
+              animate={{ strokeDashoffset: [0, -20] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.path
+              d="M30,100 Q180,80 300,110 T500,90"
+              stroke="hsl(220, 70%, 60%)"
+              strokeWidth="1"
+              fill="none"
+              strokeDasharray="5 5"
+              animate={{ strokeDashoffset: [0, -20] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 0.5 }}
+            />
+          </svg>
+        </div>
       </div>
 
-      {/* Pulsing glow */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full"
-        style={{ background: "radial-gradient(circle, hsl(220, 80%, 50%, 0.2) 0%, transparent 70%)" }}
-        animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-      />
-
       <div className="relative z-10 p-6">
-        {/* Header with established date */}
+        {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <motion.div
-              className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30"
-              whileHover={{ rotate: 10 }}
+              className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center shadow-lg shadow-indigo-500/30"
+              whileHover={{ rotate: 10, scale: 1.05 }}
             >
-              <Brain className="w-6 h-6 text-white" />
+              <Brain className="w-7 h-7 text-white" />
             </motion.div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-display text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
+                <h3 className="font-display text-xl font-bold text-white group-hover:text-indigo-300 transition-colors">
                   Alaska Consulting Group
                 </h3>
               </div>
-              <div className="flex items-center gap-2">
-                <Zap className="w-3 h-3 text-blue-400" />
-                <span className="text-xs font-semibold text-blue-400 tracking-wide">Strategic Intelligence</span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <Zap className="w-3.5 h-3.5 text-indigo-400" />
+                <span className="text-sm font-semibold text-indigo-400 tracking-wide">Strategic Intelligence</span>
+                <span className="text-xs text-slate-500">• Est. 2025</span>
               </div>
             </div>
           </div>
           <motion.div
-            className="p-2 rounded-lg bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="p-2 rounded-lg bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
             whileHover={{ scale: 1.1 }}
           >
-            <ArrowUpRight className="w-4 h-4 text-blue-400" />
+            <ArrowUpRight className="w-5 h-5 text-indigo-400" />
           </motion.div>
         </div>
 
-        {/* Tagline with animated underline */}
-        <div className="relative mb-4">
-          <p className="text-slate-300 text-sm leading-relaxed">
-            Transform your Alaska business with data-driven strategy and market insights. Since 2025.
-          </p>
+        {/* Description based on actual site content */}
+        <p className="text-slate-300 text-sm leading-relaxed mb-4">
+          Navigate Alaska's new frontier with confidence. Strategic consulting at the intersection of national security, energy independence, and economic opportunity.
+        </p>
+
+        {/* Service highlights from site research */}
+        <div className="grid grid-cols-3 gap-3 mb-4">
+          <motion.div
+            className="flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-900/30 border border-indigo-800/30"
+            whileHover={{ y: -2, borderColor: "hsl(220, 70%, 50%, 0.5)" }}
+          >
+            <Target className="w-5 h-5 text-indigo-400" />
+            <span className="text-xs text-indigo-200 text-center">Market Intel</span>
+          </motion.div>
+          <motion.div
+            className="flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-900/30 border border-indigo-800/30"
+            whileHover={{ y: -2, borderColor: "hsl(220, 70%, 50%, 0.5)" }}
+          >
+            <Shield className="w-5 h-5 text-indigo-400" />
+            <span className="text-xs text-indigo-200 text-center">Discretion</span>
+          </motion.div>
+          <motion.div
+            className="flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-900/30 border border-indigo-800/30"
+            whileHover={{ y: -2, borderColor: "hsl(220, 70%, 50%, 0.5)" }}
+          >
+            <TrendingUp className="w-5 h-5 text-indigo-400" />
+            <span className="text-xs text-indigo-200 text-center">Growth</span>
+          </motion.div>
         </div>
 
-        {/* Services chips */}
+        {/* Focus area tag */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {["Market Analysis", "Strategic Planning", "Growth Advisory"].map((service, i) => (
+          {["Critical Minerals", "Energy Strategy", "Federal Investment"].map((tag, i) => (
             <motion.span
-              key={service}
-              className="px-3 py-1 text-xs font-medium rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20"
+              key={tag}
+              className="px-3 py-1 text-xs font-medium rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 + i * 0.1 }}
+              transition={{ delay: 0.2 + i * 0.1 }}
             >
-              {service}
+              {tag}
             </motion.span>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="flex items-center justify-between pt-3 border-t border-blue-800/30">
-          <span className="text-xs text-slate-500">Sponsored</span>
+        <div className="flex items-center justify-between pt-3 border-t border-indigo-800/30">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400/60 bg-indigo-500/10 px-2 py-0.5 rounded">Sponsored</span>
           <motion.span
-            className="text-sm font-medium text-blue-400 group-hover:text-blue-300 transition-colors flex items-center gap-1"
+            className="text-sm font-medium text-indigo-400 group-hover:text-indigo-300 transition-colors flex items-center gap-1"
           >
-            Explore Services
+            Schedule Consultation
             <motion.span
               animate={{ x: [0, 4, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}

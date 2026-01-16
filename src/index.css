@@ -25,8 +25,8 @@
     --muted: 210 25% 14%;
     --muted-foreground: 200 15% 60%;
 
-    --accent: 38 70% 45%;
-    --accent-foreground: 210 30% 8%;
+    --accent: 0 70% 50%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 200 20% 96%;
@@ -41,7 +41,7 @@
     --ocean-deep: 200 70% 45%;
     --ocean-teal: 180 50% 40%;
     --ocean-steel: 210 30% 40%;
-    --ocean-gold: 38 70% 45%;
+    --ocean-red: 0 70% 50%;
     --ocean-mist: 200 20% 70%;
     --charcoal: 210 30% 8%;
     --snow-peak: 200 20% 96%;
@@ -50,7 +50,7 @@
     /* Gradients - Ocean theme */
     --gradient-ocean: linear-gradient(135deg, hsl(var(--ocean-deep)) 0%, hsl(var(--ocean-teal)) 35%, hsl(var(--ocean-steel)) 65%, hsl(210 30% 25%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(210 30% 12%) 0%, hsl(210 30% 8%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(38 70% 45%) 0%, hsl(33 65% 35%) 100%);
+    --gradient-red: linear-gradient(135deg, hsl(0 70% 50%) 0%, hsl(0 65% 40%) 100%);
 
     /* Shadows */
     --shadow-glow: 0 0 60px hsl(var(--ocean-deep) / 0.3);
@@ -87,8 +87,8 @@
     --muted: 200 15% 94%;
     --muted-foreground: 210 20% 45%;
 
-    --accent: 38 65% 42%;
-    --accent-foreground: 210 35% 15%;
+    --accent: 0 65% 45%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 50%;
     --destructive-foreground: 0 0% 100%;
@@ -101,7 +101,7 @@
     --ocean-deep: 200 75% 40%;
     --ocean-teal: 180 55% 35%;
     --ocean-steel: 210 35% 40%;
-    --ocean-gold: 38 65% 42%;
+    --ocean-red: 0 65% 45%;
     --ocean-mist: 200 25% 55%;
     --charcoal: 210 35% 15%;
     --snow-peak: 200 25% 97%;
@@ -110,7 +110,7 @@
     /* Gradients - Light */
     --gradient-ocean: linear-gradient(135deg, hsl(var(--ocean-deep)) 0%, hsl(var(--ocean-teal)) 35%, hsl(var(--ocean-steel)) 65%, hsl(210 35% 30%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(200 15% 98%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(38 65% 42%) 0%, hsl(33 60% 32%) 100%);
+    --gradient-red: linear-gradient(135deg, hsl(0 65% 45%) 0%, hsl(0 60% 35%) 100%);
 
     /* Shadows - Light */
     --shadow-glow: 0 0 60px hsl(var(--ocean-deep) / 0.2);
@@ -152,8 +152,8 @@
     background-clip: text;
   }
 
-  .text-gradient-gold {
-    background: var(--gradient-gold);
+  .text-gradient-red {
+    background: var(--gradient-red);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -181,8 +181,8 @@
     box-shadow: 0 0 40px hsl(var(--ocean-deep) / 0.4);
   }
 
-  .glow-gold {
-    box-shadow: 0 0 40px hsl(var(--ocean-gold) / 0.4);
+  .glow-red {
+    box-shadow: 0 0 40px hsl(var(--ocean-red) / 0.4);
   }
 
   .ocean-bg {
@@ -317,7 +317,7 @@
     90deg,
     hsl(var(--foreground)) 0%,
     hsl(var(--ocean-deep)) 25%,
-    hsl(var(--ocean-gold)) 50%,
+    hsl(var(--ocean-red)) 50%,
     hsl(var(--ocean-deep)) 75%,
     hsl(var(--foreground)) 100%
   );
@@ -334,7 +334,7 @@
     hsl(var(--foreground)) 0%,
     hsl(var(--foreground)) 40%,
     hsl(var(--snow-peak)) 45%,
-    hsl(var(--ocean-gold)) 50%,
+    hsl(var(--ocean-red)) 50%,
     hsl(var(--snow-peak)) 55%,
     hsl(var(--foreground)) 60%,
     hsl(var(--foreground)) 100%

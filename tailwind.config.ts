@@ -67,7 +67,7 @@ export default {
           deep: "hsl(var(--ocean-deep))",
           teal: "hsl(var(--ocean-teal))",
           steel: "hsl(var(--ocean-steel))",
-          gold: "hsl(var(--ocean-gold))",
+          red: "hsl(var(--ocean-red))",
           mist: "hsl(var(--ocean-mist))",
         },
         charcoal: "hsl(var(--charcoal))",
