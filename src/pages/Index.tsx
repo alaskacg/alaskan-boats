@@ -7,7 +7,9 @@ import TrustIndicators from "@/components/TrustIndicators";
 import SEOHead from "@/components/SEOHead";
 import BoatTypesSection from "@/components/BoatTypesSection";
 import RegionsShowcase from "@/components/RegionsShowcase";
-import PromotionalSection from "@/components/PromotionalSection";
+import AnchorageChronicleAd from "@/components/promotions/AnchorageChronicleAd";
+import AlaskaConsultingAd from "@/components/promotions/AlaskaConsultingAd";
+import AlaskaListingsAd from "@/components/promotions/AlaskaListingsAd";
 
 const Index = () => {
   return (
@@ -17,10 +19,28 @@ const Index = () => {
       <main>
         <HeroSection />
         <TrustIndicators />
+        
         <BoatTypesSection />
+        
+        {/* Standalone Ad - Anchorage Chronicle */}
+        <div className="container mx-auto px-4 py-6">
+          <AnchorageChronicleAd />
+        </div>
+        
         <RegionsShowcase />
+        
+        {/* Standalone Ad - Alaska Consulting Group */}
+        <div className="container mx-auto px-4 py-6">
+          <AlaskaConsultingAd />
+        </div>
+        
         <RecentListings />
-        <PromotionalSection />
+        
+        {/* Standalone Ad - Alaska Listings */}
+        <div className="container mx-auto px-4 py-6">
+          <AlaskaListingsAd />
+        </div>
+        
         <CTASection />
       </main>
       <Footer />
