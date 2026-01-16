@@ -4,7 +4,6 @@ import { ArrowRight, Anchor, Ship, Waves, Star, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import heroImage from "@/assets/hero-southeast-harbor.jpg";
 import RegionalSearch from "@/components/RegionalSearch";
-import TraditionalAnchorLogo from "@/components/TraditionalAnchorLogo";
 import InteractiveWaveBackground from "@/components/InteractiveWaveBackground";
 
 const HeroSection = () => {
@@ -48,14 +47,19 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="max-w-5xl mx-auto">
-          {/* Traditional Anchor Logo with animated water */}
+          {/* Anchor Logo - Same style as header/footer */}
           <motion.div
-            className="flex justify-center mb-4"
+            className="flex justify-center mb-6"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <TraditionalAnchorLogo className="w-20 h-24 md:w-24 md:h-28" />
+            <motion.div 
+              className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary flex items-center justify-center shadow-2xl shadow-primary/30"
+              whileHover={{ scale: 1.05, rotate: -5 }}
+            >
+              <Anchor className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground" />
+            </motion.div>
           </motion.div>
 
           {/* Main heading with wave animation */}
