@@ -4,7 +4,8 @@ import { ArrowRight, Anchor, Ship, Waves, Star, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import heroImage from "@/assets/hero-southeast-harbor.jpg";
 import RegionalSearch from "@/components/RegionalSearch";
-import AnimatedBoatLogo from "@/components/AnimatedBoatLogo";
+import TraditionalAnchorLogo from "@/components/TraditionalAnchorLogo";
+import InteractiveWaveBackground from "@/components/InteractiveWaveBackground";
 
 const HeroSection = () => {
   return (
@@ -21,23 +22,40 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
       </div>
 
-      {/* Animated wave effect */}
+      {/* Interactive Wave Background */}
+      <InteractiveWaveBackground />
+
+      {/* Animated ambient effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-ocean-deep/20 rounded-full blur-3xl opacity-60" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-ocean-teal/15 rounded-full blur-3xl opacity-50" />
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-ocean-deep/20 rounded-full blur-3xl"
+          animate={{ 
+            opacity: [0.4, 0.7, 0.4],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-ocean-teal/15 rounded-full blur-3xl"
+          animate={{ 
+            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.15, 1],
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="max-w-5xl mx-auto">
-          {/* Animated Anchor Logo */}
+          {/* Traditional Anchor Logo with animated water */}
           <motion.div
             className="flex justify-center mb-4"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <AnimatedBoatLogo className="w-20 h-20 md:w-24 md:h-24" />
+            <TraditionalAnchorLogo className="w-20 h-24 md:w-24 md:h-28" />
           </motion.div>
 
           {/* Main heading with wave animation */}
