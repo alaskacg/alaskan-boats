@@ -26,10 +26,10 @@ const TraditionalAnchorLogo = ({ className = "" }: TraditionalAnchorLogoProps) =
             <stop offset="100%" stopColor="hsl(200, 70%, 35%)" />
           </linearGradient>
           
-          {/* Gold accent gradient */}
-          <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(38, 70%, 55%)" />
-            <stop offset="100%" stopColor="hsl(38, 70%, 40%)" />
+          {/* Red accent gradient */}
+          <linearGradient id="redAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(0, 70%, 55%)" />
+            <stop offset="100%" stopColor="hsl(0, 70%, 45%)" />
           </linearGradient>
           
           {/* Water gradient */}
@@ -63,7 +63,7 @@ const TraditionalAnchorLogo = ({ className = "" }: TraditionalAnchorLogoProps) =
           cx="50"
           cy="12"
           r="5"
-          stroke="url(#goldAccent)"
+          stroke="url(#redAccent)"
           strokeWidth="1.5"
           fill="none"
           initial={{ opacity: 0 }}
@@ -98,7 +98,7 @@ const TraditionalAnchorLogo = ({ className = "" }: TraditionalAnchorLogoProps) =
           cx="28"
           cy="30"
           r="3"
-          fill="url(#goldAccent)"
+          fill="url(#redAccent)"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.8, duration: 0.3 }}
@@ -107,7 +107,7 @@ const TraditionalAnchorLogo = ({ className = "" }: TraditionalAnchorLogoProps) =
           cx="72"
           cy="30"
           r="3"
-          fill="url(#goldAccent)"
+          fill="url(#redAccent)"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.8, duration: 0.3 }}
@@ -144,7 +144,7 @@ const TraditionalAnchorLogo = ({ className = "" }: TraditionalAnchorLogoProps) =
         {/* Left fluke tip */}
         <motion.path
           d="M15 105 L8 112 L18 107 L15 105"
-          fill="url(#goldAccent)"
+          fill="url(#redAccent)"
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.4, duration: 0.3 }}
@@ -169,7 +169,7 @@ const TraditionalAnchorLogo = ({ className = "" }: TraditionalAnchorLogoProps) =
         {/* Right fluke tip */}
         <motion.path
           d="M85 105 L92 112 L82 107 L85 105"
-          fill="url(#goldAccent)"
+          fill="url(#redAccent)"
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.4, duration: 0.3 }}
@@ -237,7 +237,7 @@ const TraditionalAnchorLogo = ({ className = "" }: TraditionalAnchorLogoProps) =
           cx="50"
           cy="12"
           r="1.5"
-          fill="hsl(38, 70%, 60%)"
+          fill="hsl(0, 70%, 60%)"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 1, 0] }}
           transition={{ duration: 2, repeat: Infinity, delay: 1 }}
