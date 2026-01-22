@@ -241,8 +241,8 @@ const PostListing = () => {
           contact_name: contactName.trim(),
           contact_email: contactEmail.trim(),
           contact_phone: contactPhone.trim() || null,
-          status: 'pending' as const,
-          payment_status: 'pending' as const,
+          status: 'active' as const,
+          payment_status: 'completed' as const,
           expires_at: expiresAt.toISOString(),
         }])
         .select()
@@ -264,7 +264,7 @@ const PostListing = () => {
 
       toast({
         title: "🎉 Free Beta Listing Created!",
-        description: "Thank you for being a beta user! Your listing is now pending review.",
+        description: "Your listing is now live and visible to buyers!",
       });
 
       navigate('/my-listings');
