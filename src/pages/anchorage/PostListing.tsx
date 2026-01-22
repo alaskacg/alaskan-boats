@@ -205,8 +205,8 @@ const AnchoragePostListing = () => {
           contact_name: contactName.trim(),
           contact_email: contactEmail.trim(),
           contact_phone: contactPhone.trim() || null,
-          status: 'pending' as const,
-          payment_status: 'pending' as const,
+          status: 'active' as const,
+          payment_status: 'completed' as const,
           expires_at: expiresAt.toISOString(),
         }])
         .select()
@@ -221,7 +221,7 @@ const AnchoragePostListing = () => {
         }
       }
 
-      toast({ title: "🎉 Free Beta Listing Created!", description: "Thank you for being a beta user!" });
+      toast({ title: "🎉 Free Beta Listing Created!", description: "Your listing is now live and visible to buyers!" });
       navigate('/anchorage/my-listings');
     } catch (error) {
       console.error('Error creating listing:', error);
