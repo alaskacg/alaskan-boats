@@ -3,8 +3,28 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-api-key',
 };
+
+// Validate API key from network_sites table
+async function validateNetworkApiKey(supabase: any, apiKey: string | null): Promise<{ valid: boolean; site?: any }> {
+  if (!apiKey) {
+    return { valid: false };
+  }
+
+  const { data: site, error } = await supabase
+    .from('network_sites')
+    .select('site_code, site_name, region')
+    .eq('api_key', apiKey)
+    .eq('is_active', true)
+    .single();
+
+  if (error || !site) {
+    return { valid: false };
+  }
+
+  return { valid: true, site };
+}
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -17,9 +37,29 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+    // Get API key from header
+    const apiKey = req.headers.get('x-api-key');
+    
     const { action, site_code, listing_id } = await req.json();
 
     console.log(`Network sync action: ${action}, site: ${site_code}, listing: ${listing_id}`);
+
+    // Validate API key for all actions that return sensitive data
+    const sensitiveActions = ['fetch_listings', 'fetch_regional_listings', 'get_network_sites', 'get_statewide_feed'];
+    
+    if (sensitiveActions.includes(action)) {
+      const { valid, site } = await validateNetworkApiKey(supabase, apiKey);
+      
+      if (!valid) {
+        console.log(`Unauthorized access attempt for action: ${action}`);
+        return new Response(
+          JSON.stringify({ success: false, error: 'Unauthorized: Invalid or missing API key' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
+      console.log(`Authorized request from site: ${site?.site_name}`);
+    }
 
     switch (action) {
       case 'fetch_listings': {
@@ -88,25 +128,14 @@ serve(async (req) => {
       }
 
       case 'validate_api_key': {
-        // Validate an API key for a network site
-        const { api_key } = await req.json();
+        // Validate an API key for a network site - this one requires the key in body
+        const body = await req.json().catch(() => ({}));
+        const keyToValidate = body.api_key || apiKey;
         
-        const { data: site, error } = await supabase
-          .from('network_sites')
-          .select('site_code, site_name')
-          .eq('api_key', api_key)
-          .eq('is_active', true)
-          .single();
-
-        if (error || !site) {
-          return new Response(
-            JSON.stringify({ success: false, valid: false }),
-            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-          );
-        }
+        const { valid, site } = await validateNetworkApiKey(supabase, keyToValidate);
 
         return new Response(
-          JSON.stringify({ success: true, valid: true, site }),
+          JSON.stringify({ success: true, valid, site: valid ? site : undefined }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
