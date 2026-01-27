@@ -114,7 +114,7 @@ const Terms = () => {
               <section>
                 <h2 className="font-display text-xl font-semibold text-foreground mb-4">10. Contact Information</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  For questions about these Terms of Service, please contact us at: support@aklistings.com
+                  For questions about these Terms of Service, please contact us at: <a href="mailto:support@aklistings.com" className="text-primary hover:underline">support@aklistings.com</a>
                 </p>
               </section>
 

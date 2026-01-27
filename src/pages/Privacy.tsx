@@ -95,7 +95,7 @@ const Privacy = () => {
             <section>
               <h2 className="font-display text-xl font-semibold text-foreground mb-4">8. Contact Us</h2>
               <p className="text-muted-foreground leading-relaxed">
-                For privacy-related questions or requests, contact us at: privacy@aklistings.com
+                For privacy-related questions or requests, contact us at: <a href="mailto:support@aklistings.com" className="text-primary hover:underline">support@aklistings.com</a>
               </p>
             </section>
 
