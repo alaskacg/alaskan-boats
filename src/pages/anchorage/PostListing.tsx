@@ -221,6 +221,11 @@ const AnchoragePostListing = () => {
         }
       }
 
+      // Sync listing to ecosystem hub (fire-and-forget, don't block user)
+      supabase.functions.invoke('ecosystem-sync', {
+        body: { listing }
+      }).catch(err => console.error('Ecosystem sync error:', err));
+
       toast({ title: "🎉 Free Beta Listing Created!", description: "Your listing is now live and visible to buyers!" });
       navigate('/anchorage/my-listings');
     } catch (error) {
