@@ -10,6 +10,7 @@ import RegionsShowcase from "@/components/RegionsShowcase";
 import AnchorageChronicleAd from "@/components/promotions/AnchorageChronicleAd";
 import AlaskaConsultingAd from "@/components/promotions/AlaskaConsultingAd";
 import AlaskaListingsAd from "@/components/promotions/AlaskaListingsAd";
+import EmpireNetwork from "@/components/EmpireNetwork";
 
 const Index = () => {
   return (
@@ -42,6 +43,7 @@ const Index = () => {
         </div>
         
         <CTASection />
+        <EmpireNetwork currentSite="alaskan-boats" />
       </main>
       <Footer />
     </div>
