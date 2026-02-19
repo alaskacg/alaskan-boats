@@ -32,6 +32,7 @@ import AnchorageLogin from "./pages/anchorage/Login";
 import AnchorageRegister from "./pages/anchorage/Register";
 
 import ListingSuccess from "@/pages/ListingSuccess";
+import ListingCancel from "@/pages/ListingCancel";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -80,6 +81,7 @@ const App = () => (
               
               {/* Catch-all */}
               <Route path="/listing-success" element={<ListingSuccess />} />
+            <Route path="/listing-cancel" element={<ListingCancel />} />
           <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
