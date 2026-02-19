@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Home, ExternalLink, Star } from "lucide-react";
+import { Home, ExternalLink } from "lucide-react";
 
 const AlaskaListingsAd = () => {
   return (
@@ -40,10 +40,7 @@ const AlaskaListingsAd = () => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-300/70 bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/20">Sponsored</span>
-            <span className="text-[9px] font-bold uppercase tracking-wider text-amber-200 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/20 flex items-center gap-1">
-              <Star className="w-2.5 h-2.5 fill-amber-400" />
-              Beta
-            </span>
+
           </div>
           <h3 className="font-display text-lg md:text-xl font-bold text-white group-hover:text-emerald-200 transition-colors mt-1">
             Alaska Listings

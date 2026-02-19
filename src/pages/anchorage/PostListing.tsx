@@ -17,7 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, X, Gift, AlertCircle, Loader2, Sparkles, Mail, AlertTriangle } from "lucide-react";
+import { Upload, X, AlertCircle, Loader2, Sparkles, Mail } from "lucide-react";
 import { listingSchema } from "@/lib/validations";
 import { useBetaListingLimit } from "@/hooks/useBetaListingLimit";
 import { motion } from "framer-motion";
@@ -52,7 +52,7 @@ const AnchoragePostListing = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
-  const { canPost, currentListings, maxListings, remainingListings, isEmailVerified, loading: betaLoading } = useBetaListingLimit();
+  const { canPost, isEmailVerified, loading: betaLoading } = useBetaListingLimit();
   
   const [images, setImages] = useState<File[]>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
@@ -168,12 +168,7 @@ const AnchoragePostListing = () => {
     }
 
     if (!isEmailVerified) {
-      toast({ title: "Email Verification Required", description: "Please verify your email to post listings during beta.", variant: "destructive" });
-      return;
-    }
-
-    if (!canPost) {
-      toast({ title: "Beta Limit Reached", description: `Maximum of ${maxListings} free listings during beta.`, variant: "destructive" });
+      toast({ title: "Email Verification Required", description: "Please verify your email to post listings.", variant: "destructive" });
       return;
     }
 
@@ -226,7 +221,7 @@ const AnchoragePostListing = () => {
         body: { listing }
       }).catch(err => console.error('Ecosystem sync error:', err));
 
-      toast({ title: "🎉 Free Beta Listing Created!", description: "Your listing is now live and visible to buyers!" });
+      toast({ title: "🎉 Listing Created!", description: "Your listing is now live and visible to buyers!" });
       navigate('/anchorage/my-listings');
     } catch (error) {
       console.error('Error creating listing:', error);
@@ -249,14 +244,6 @@ const AnchoragePostListing = () => {
       <AnchorageHeader />
       <main className="pt-24 md:pt-28 pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
-          {/* Beta Badge */}
-          <div className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-accent/20 text-accent border border-accent/30 rounded-full px-4 py-2">
-              <Sparkles className="w-4 h-4" />
-              <span className="text-sm font-semibold">Beta Launch - Free Listings!</span>
-            </div>
-          </div>
-
           <motion.div 
             className="text-center mb-10"
             initial={{ opacity: 0, y: 20 }}
@@ -267,7 +254,7 @@ const AnchoragePostListing = () => {
               Post Your Anchorage Listing
             </h1>
             <p className="text-muted-foreground text-sm">
-              Free during beta! Active for 60 days.
+              Active for 60 days.
             </p>
           </motion.div>
 
@@ -283,26 +270,7 @@ const AnchoragePostListing = () => {
                 <div>
                   <h3 className="font-semibold text-destructive text-sm mb-2">Email Verification Required</h3>
                   <p className="text-sm text-muted-foreground">
-                    Please verify your email to post listings during our beta period.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Listing Limit Warning */}
-          {user && isEmailVerified && remainingListings === 0 && (
-            <motion.div 
-              className="bg-destructive/10 border border-destructive/30 rounded-2xl p-6 mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-6 h-6 text-destructive flex-shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-semibold text-destructive text-sm mb-2">Beta Listing Limit Reached</h3>
-                  <p className="text-sm text-muted-foreground">
-                    You've reached the maximum of {maxListings} free listings during beta.
+                    Please verify your email to post listings.
                   </p>
                 </div>
               </div>
@@ -315,25 +283,15 @@ const AnchoragePostListing = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full">
-              BETA SPECIAL
-            </div>
-            <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
-                  <Gift className="w-6 h-6 text-accent" />
+                  <Sparkles className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground text-sm">Free during beta!</h3>
+                  <h3 className="font-semibold text-foreground text-sm">Post your listing</h3>
                   <p className="text-xs text-muted-foreground">60 days • Up to 5 images</p>
-                  <p className="text-xs text-accent font-medium mt-1">
-                    {remainingListings} of {maxListings} free listings remaining
-                  </p>
                 </div>
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-display font-bold text-accent">FREE</div>
-                <div className="text-xs text-muted-foreground line-through">$10</div>
               </div>
             </div>
           </motion.div>
@@ -507,7 +465,7 @@ const AnchoragePostListing = () => {
                   id="terms"
                   checked={agreedToTerms}
                   onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-                  disabled={!canPost}
+                  disabled={!isEmailVerified}
                 />
                 <Label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed">
                   I agree to the <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link to="/disclaimer" className="text-primary hover:underline">Disclaimer</Link>
@@ -524,24 +482,22 @@ const AnchoragePostListing = () => {
                 type="submit"
                 size="lg"
                 className="w-full bg-primary hover:bg-primary/90"
-                disabled={isSubmitting || !agreedToTerms || !canPost}
+                disabled={isSubmitting || !agreedToTerms || !isEmailVerified}
               >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Creating Free Listing...
+                    Creating Listing...
                   </>
                 ) : !isEmailVerified ? (
                   <>
                     <Mail className="w-4 h-4 mr-2" />
                     Verify Email to Post
                   </>
-                ) : !canPost ? (
-                  "Beta Limit Reached"
                 ) : (
                   <>
                     <Sparkles className="w-4 h-4 mr-2" />
-                    Submit Free Listing
+                    Submit Listing
                   </>
                 )}
               </Button>
