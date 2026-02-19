@@ -180,7 +180,10 @@ const PostListing = () => {
         description: "Please sign in to post a listing.",
         variant: "destructive",
       });
-      navigate('/login');
+      // Redirect to Stripe for payment
+      const email = encodeURIComponent(contactEmail);
+      window.location.href = `https://buy.stripe.com/5kQcMYbUmdczcai0iK6J200?prefilled_email=${email}`;
+return;
       return;
     }
 
@@ -197,7 +200,7 @@ const PostListing = () => {
     if (!canPost) {
       toast({
         title: "Beta Listing Limit Reached",
-        description: `You've reached the maximum of ${maxListings} free listings during beta.`,
+        description: `You've reached the maximum of ${maxListings} free listings Post your listing for just $10. Live for 60 days.`,
         variant: "destructive",
       });
       return;
@@ -268,11 +271,13 @@ const PostListing = () => {
       }).catch(err => console.error('Ecosystem sync error:', err));
 
       toast({
-        title: "🎉 Free Beta Listing Created!",
+        title: "🎉 paid Listing Created!",
         description: "Your listing is now live and visible to buyers!",
       });
-
-      navigate('/my-listings');
+      // Redirect to Stripe for payment
+      const email = encodeURIComponent(contactEmail);
+      window.location.href = `https://buy.stripe.com/5kQcMYbUmdczcai0iK6J200?prefilled_email=${email}`;
+return;
     } catch (error) {
       console.error('Error creating listing:', error);
       toast({
@@ -585,7 +590,7 @@ const PostListing = () => {
                 <div className="space-y-4">
                   <h3 className="font-semibold text-foreground text-sm">Important Information</h3>
                   <ul className="text-xs text-muted-foreground space-y-2 list-disc list-inside">
-                    <li>Your free beta listing will be active for 60 days</li>
+                    <li>Your listing will be active for 60 days</li>
                     <li>Listings are automatically removed after expiration unless renewed</li>
                     <li>Alaska Listings LLC is a listing service only and does not participate in transactions</li>
                     <li>All transactions are between buyer and seller directly</li>

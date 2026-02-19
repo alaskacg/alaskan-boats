@@ -31,6 +31,7 @@ import AnchoragePostListing from "./pages/anchorage/PostListing";
 import AnchorageLogin from "./pages/anchorage/Login";
 import AnchorageRegister from "./pages/anchorage/Register";
 
+import ListingSuccess from "@/pages/ListingSuccess";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -78,7 +79,8 @@ const App = () => (
               <Route path="/anchorage/admin" element={<Dashboard />} />
               
               {/* Catch-all */}
-              <Route path="*" element={<NotFound />} />
+              <Route path="/listing-success" element={<ListingSuccess />} />
+          <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
