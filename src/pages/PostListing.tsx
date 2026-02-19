@@ -180,10 +180,7 @@ const PostListing = () => {
         description: "Please sign in to post a listing.",
         variant: "destructive",
       });
-      // Redirect to Stripe for payment
-      const email = encodeURIComponent(contactEmail);
-      window.location.href = `https://buy.stripe.com/5kQcMYbUmdczcai0iK6J200?prefilled_email=${email}`;
-return;
+      navigate("/login");
       return;
     }
 
@@ -277,7 +274,7 @@ const PostListing = () => {
       // Redirect to Stripe for payment
       const email = encodeURIComponent(contactEmail);
       window.location.href = `https://buy.stripe.com/5kQcMYbUmdczcai0iK6J200?prefilled_email=${email}`;
-return;
+        return;
     } catch (error) {
       console.error('Error creating listing:', error);
       toast({
